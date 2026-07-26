@@ -2,6 +2,7 @@ import typer
 
 from seqdot.fasta import read_fasta
 from seqdot.kmer import build_kmer_index, find_kmer_matches
+from seqdot.plot import create_dotplot
 
 
 app = typer.Typer(
@@ -11,6 +12,7 @@ app = typer.Typer(
 
 
 @app.command()
+
 def main(
     sequence1: str,
     sequence2: str,
@@ -51,6 +53,17 @@ def main(
         f"Found {len(matches)} matching k-mers"
     )
 
+    create_dotplot(
+        matches,
+        seq1["length"],
+        seq2["length"],
+        seq1["name"],
+        seq2["name"]
+    )
+
+    typer.echo(
+        "Dotplot saved as dotplot.png"
+    )
 
 if __name__ == "__main__":
     app()
