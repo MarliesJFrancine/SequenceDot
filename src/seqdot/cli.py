@@ -2,6 +2,7 @@ import typer
 
 from seqdot.fasta import read_fasta
 from seqdot.kmer import build_kmer_index, find_kmer_matches
+from seqdot.utils import reverse_complement
 from seqdot.plot import create_dotplot
 
 
@@ -32,6 +33,12 @@ def main(
         "--alphabet",
         "-a",
         help="Sequence alphabet: DNA, RNA, or AA"
+    ),
+    strand: str = typer.Option(
+        "forward",
+        "--strand",
+        "-s",
+        help="Compare forward strand, reverse complement, or both"
     )
 ):
 
@@ -42,6 +49,20 @@ def main(
 
     seq1 = read_fasta(sequence1, alphabet)
     seq2 = read_fasta(sequence2, alphabet)
+    
+    if strand == "reverse":
+
+        seq2["sequence"] = reverse_complement(
+            seq2["sequence"]
+        )
+    
+    if strand not in [
+        "forward",
+        "reverse"
+    ]:
+        raise typer.BadParameter(
+            "strand must be 'forward' or 'reverse'"
+        )
 
     typer.echo(
         f"Building k-mer index (k={kmer})..."
