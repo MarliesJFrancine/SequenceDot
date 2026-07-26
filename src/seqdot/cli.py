@@ -12,7 +12,6 @@ app = typer.Typer(
 
 
 @app.command()
-
 def main(
     sequence1: str,
     sequence2: str,
@@ -27,14 +26,22 @@ def main(
         "--output",
         "-o",
         help="Output image file (.png, .pdf, .svg)"
+    ),
+    alphabet: str = typer.Option(
+        "DNA",
+        "--alphabet",
+        "-a",
+        help="Sequence alphabet: DNA, RNA, or AA"
     )
 ):
+
+
     """
     Generate a dotplot from two sequence files.
     """
 
-    seq1 = read_fasta(sequence1)
-    seq2 = read_fasta(sequence2)
+    seq1 = read_fasta(sequence1, alphabet)
+    seq2 = read_fasta(sequence2, alphabet)
 
     typer.echo(
         f"Building k-mer index (k={kmer})..."

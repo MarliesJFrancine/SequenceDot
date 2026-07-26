@@ -1,0 +1,5 @@
+DNA = set("ACGTN")
+
+RNA = set("ACGUN")
+
+AA = set("ABCDEFGHIKLMNPQRSTVWXYZ")
