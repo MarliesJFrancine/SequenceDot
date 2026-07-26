@@ -1,6 +1,9 @@
 # Virtual environment
 .venv/
 
+# Test data
+tests/
+
 # Python cache
 __pycache__/
 *.py[cod]

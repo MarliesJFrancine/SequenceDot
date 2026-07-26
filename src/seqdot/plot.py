@@ -36,12 +36,20 @@ def create_dotplot(
     x = [match[0] for match in matches]
     y = [match[1] for match in matches]
 
-    fig, ax = plt.subplots(figsize=(8, 8))
+    fig, ax = plt.subplots(
+        figsize=(8, 8),
+        dpi=300
+    )
 
     ax.scatter(
         x,
         y,
-        s=1
+        s=0.5,
+        marker="."
+    )
+    
+    ax.ticklabel_format(
+        style="plain"
     )
 
     ax.set_xlim(0, length1)

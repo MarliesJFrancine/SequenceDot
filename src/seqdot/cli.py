@@ -21,6 +21,12 @@ def main(
         "--kmer",
         "-k",
         help="Length of k-mer used for matching"
+    ),
+    output: str = typer.Option(
+        "dotplot.png",
+        "--output",
+        "-o",
+        help="Output image file (.png, .pdf, .svg)"
     )
 ):
     """
@@ -58,11 +64,12 @@ def main(
         seq1["length"],
         seq2["length"],
         seq1["name"],
-        seq2["name"]
+        seq2["name"],
+        output
     )
 
     typer.echo(
-        "Dotplot saved as dotplot.png"
+        "Dotplot saved"
     )
 
 if __name__ == "__main__":
