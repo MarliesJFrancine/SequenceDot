@@ -1,10 +1,9 @@
 import typer
 
-from pathlib import Path
+from seqdot.compare import compare_sequences
 from seqdot.fasta import read_fasta
-from seqdot.kmer import build_kmer_index, find_kmer_matches
-from seqdot.utils import reverse_complement, make_output_filename
-from seqdot.plot import create_dotplot
+from seqdot.utils import make_output_filename
+from pathlib import Path
 
 
 app = typer.Typer(
@@ -61,11 +60,21 @@ def main(
     seq1 = read_fasta(sequence1, alphabet)
     seq2 = read_fasta(sequence2, alphabet)
     
-    if strand == "reverse":
-
-        seq2["sequence"] = reverse_complement(
-            seq2["sequence"]
+    if output is None:
+        output = make_output_filename(
+            seq1["name"],
+            seq2["name"]
         )
+    
+    if output_dir is not None:
+        output_dir = Path(output_dir)
+
+        output_dir.mkdir(
+            parents=True,
+            exist_ok=True
+        )
+
+        output = str(output_dir / output)
     
     if strand not in [
         "forward",
@@ -80,85 +89,21 @@ def main(
         f"Building k-mer index (k={kmer})..."
     )
 
-    index = build_kmer_index(
-        seq1["sequence"],
-        kmer
-    )
-
-    typer.echo(
-        "Searching for matches..."
-    )
-
-    matches = find_kmer_matches(
-        seq2["sequence"],
-        index,
-        kmer
-    )
-
-    # Add strand information to forward matches
-    matches = [
-        (x, y, "forward")
-        for x, y in matches
-    ]
-
-
-    if strand in ["reverse", "both"]:
-
-        reverse_seq2 = reverse_complement(
-            seq2["sequence"]
-        )
-
-        reverse_matches = find_kmer_matches(
-            reverse_seq2,
-            index,
-            kmer
-        )
-
-        reverse_matches = [
-            (x, y, "reverse")
-            for x, y in reverse_matches
-        ]
-
-        if strand == "reverse":
-            matches = reverse_matches
-
-        elif strand == "both":
-            matches.extend(reverse_matches)
-
-    typer.echo(
-        f"Found {len(matches)} matching k-mers"
-    )
-    
-    if output is None:
-        output = make_output_filename(
-            seq1["name"],
-            seq2["name"]
-        )
-
-    if output_dir is not None:
-        output_dir = Path(output_dir)
-
-        output_dir.mkdir(
-            parents=True,
-            exist_ok=True
-        )
-
-        output = str(output_dir / output)
-
-    create_dotplot(
-        matches,
-        seq1["length"],
-        seq2["length"],
+    matches = compare_sequences(
+        seq1,
+        seq2,
         kmer,
-        name1=seq1["name"],
-        name2=seq2["name"],
-        output_file=output,
-        point_size=point_size
+        strand,
+        output,
+        point_size
     )
 
     typer.echo(
-        "Dotplot saved"
+        f"Found {matches} matching k-mers"
     )
+
+    typer.echo("Dotplot saved")
+    
 
 if __name__ == "__main__":
     app()

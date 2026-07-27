@@ -95,6 +95,14 @@ source .venv/bin/activate
 pip install .
 ```
 
+## Developmental installation
+
+For development, install SeqDot in editable mode:
+
+```bash
+pip install -e .
+```
+
 ---
 
 # Usage
