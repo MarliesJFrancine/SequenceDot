@@ -1,4 +1,26 @@
 from seqdot.alphabet import DNA, RNA, AA
+import re
+
+
+def sanitize_filename(name):
+    """
+    Convert sequence names into safe filenames.
+    """
+
+    name = re.sub(r"[^\w\-\.]", "_", name)
+
+    return name
+
+
+def make_output_filename(name1, name2, extension="png"):
+    """
+    Create default output filename from two sequence names.
+    """
+
+    name1 = sanitize_filename(name1)
+    name2 = sanitize_filename(name2)
+
+    return f"{name1}_{name2}.{extension}"
 
 
 ALPHABETS = {

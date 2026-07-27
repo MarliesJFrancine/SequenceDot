@@ -2,7 +2,7 @@ import typer
 
 from seqdot.fasta import read_fasta
 from seqdot.kmer import build_kmer_index, find_kmer_matches
-from seqdot.utils import reverse_complement
+from seqdot.utils import reverse_complement, make_output_filename
 from seqdot.plot import create_dotplot
 
 
@@ -22,11 +22,11 @@ def main(
         "-k",
         help="Length of k-mer used for matching, default: 11"
     ),
-    output: str = typer.Option(
-        "dotplot.png",
+    output: str | None = typer.Option(
+        None,
         "--output",
         "-o",
-        help="Output image file (.png, .pdf, .svg), default: dotplot.png"
+        help="Output image file (.png, .pdf, .svg)"
     ),
     alphabet: str = typer.Option(
         "DNA",
@@ -122,16 +122,22 @@ def main(
     typer.echo(
         f"Found {len(matches)} matching k-mers"
     )
+    
+    if output is None:
+        output = make_output_filename(
+            seq1["name"],
+            seq2["name"]
+        )
 
     create_dotplot(
         matches,
         seq1["length"],
         seq2["length"],
         kmer,
-        point_size,
-        seq1["name"],
-        seq2["name"],
-        output
+        name1=seq1["name"],
+        name2=seq2["name"],
+        output_file=output,
+        point_size=point_size
     )
 
     typer.echo(
