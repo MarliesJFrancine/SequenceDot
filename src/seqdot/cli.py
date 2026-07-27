@@ -1,5 +1,6 @@
 import typer
 
+from pathlib import Path
 from seqdot.fasta import read_fasta
 from seqdot.kmer import build_kmer_index, find_kmer_matches
 from seqdot.utils import reverse_complement, make_output_filename
@@ -27,6 +28,11 @@ def main(
         "--output",
         "-o",
         help="Output image file (.png, .pdf, .svg)"
+    ),
+    output_dir: str | None = typer.Option(
+        None,
+        "--output-dir",
+        help="Directory where output files are saved"
     ),
     alphabet: str = typer.Option(
         "DNA",
@@ -128,6 +134,16 @@ def main(
             seq1["name"],
             seq2["name"]
         )
+
+    if output_dir is not None:
+        output_dir = Path(output_dir)
+
+        output_dir.mkdir(
+            parents=True,
+            exist_ok=True
+        )
+
+        output = str(output_dir / output)
 
     create_dotplot(
         matches,

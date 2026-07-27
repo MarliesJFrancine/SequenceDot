@@ -167,6 +167,12 @@ seqdot sequence1.fasta sequence2.fasta --point-size 5
 seqdot sequence1.fasta sequence2.fasta --output comparison.pdf
 ```
 
+## Save output in a directory
+
+```bash
+seqdot sequence1.fasta sequence2.fasta --output-dir plots
+```
+
 ---
 
 # Run tests
