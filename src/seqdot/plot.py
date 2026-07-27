@@ -1,6 +1,35 @@
 import matplotlib.pyplot as plt
 
 
+def separate_strands(matches, length2, kmer):
+    """
+    Separate forward and reverse matches and transform reverse coordinates.
+    """
+
+    forward_x = []
+    forward_y = []
+
+    reverse_x = []
+    reverse_y = []
+
+    for x, y, strand in matches:
+
+        if strand == "forward":
+            forward_x.append(x)
+            forward_y.append(y)
+
+        elif strand == "reverse":
+            reverse_x.append(x)
+            reverse_y.append(length2 - y - kmer)
+
+    return (
+        forward_x,
+        forward_y,
+        reverse_x,
+        reverse_y
+    )
+
+
 def create_dotplot(
     matches,
     length1,
@@ -8,7 +37,8 @@ def create_dotplot(
     kmer,
     name1="Sequence 1",
     name2="Sequence 2",
-    output_file="dotplot.png"
+    output_file="dotplot.png",
+    point_size=1
 ):
     """
     Create a dotplot from matching positions.
@@ -35,23 +65,11 @@ def create_dotplot(
     """
 
     
-    forward_x = []
-    forward_y = []
-
-    reverse_x = []
-    reverse_y = []
-
-    for x, y, strand in matches:
-
-        if strand == "forward":
-            forward_x.append(x)
-            forward_y.append(y)
-
-        elif strand == "reverse":
-            reverse_x.append(x)
-
-            # Flip the reverse strand onto the original coordinate system
-            reverse_y.append(length2 - y - kmer)
+    forward_x, forward_y, reverse_x, reverse_y = separate_strands(
+        matches,
+        length2,
+        kmer
+    )
 
     fig, ax = plt.subplots(
         figsize=(8, 8),
@@ -61,7 +79,7 @@ def create_dotplot(
     ax.scatter(
         forward_x,
         forward_y,
-        s=1,
+        s=point_size,
         marker=".",
         color="steelblue",
         label="Forward"
@@ -70,7 +88,7 @@ def create_dotplot(
     ax.scatter(
         reverse_x,
         reverse_y,
-        s=1,
+        s=point_size,
         marker=".",
         color="darkorange",
         label="Reverse complement"

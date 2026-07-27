@@ -20,25 +20,30 @@ def main(
         11,
         "--kmer",
         "-k",
-        help="Length of k-mer used for matching"
+        help="Length of k-mer used for matching, default: 11"
     ),
     output: str = typer.Option(
         "dotplot.png",
         "--output",
         "-o",
-        help="Output image file (.png, .pdf, .svg)"
+        help="Output image file (.png, .pdf, .svg), default: dotplot.png"
     ),
     alphabet: str = typer.Option(
         "DNA",
         "--alphabet",
         "-a",
-        help="Sequence alphabet: DNA, RNA, or AA"
+        help="Sequence alphabet: DNA, RNA, or AA, default: DNA"
     ),
     strand: str = typer.Option(
         "forward",
         "--strand",
         "-s",
-        help="Compare forward strand, reverse complement, or both"
+        help="Compare forward strand, reverse complement, or both, default: forward"
+    ),
+    point_size: float = typer.Option(
+        1,
+        "--point-size",
+        help="Size of dots in the plot, default: 1"
     )
 ):
 
@@ -123,6 +128,7 @@ def main(
         seq1["length"],
         seq2["length"],
         kmer,
+        point_size,
         seq1["name"],
         seq2["name"],
         output
