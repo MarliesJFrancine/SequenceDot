@@ -71,6 +71,16 @@ Example:
 seqdot sequence1.fasta sequence2.fasta --output comparison.pdf
 ```
 
+### All-vs-all comparisons
+
+SeqDot can compare all sequences in a multi-sequence FASTA file against each other.
+
+Example:
+
+```bash
+seqdot --file sequences.fasta --all-vs-all
+```
+
 ---
 
 # Installation
@@ -105,7 +115,7 @@ pip install -e .
 
 ---
 
-# Usage
+# Basic usage
 
 Generate a dotplot from two sequence files:
 
@@ -178,7 +188,15 @@ seqdot sequence1.fasta sequence2.fasta --output comparison.pdf
 ## Save output in a directory
 
 ```bash
-seqdot sequence1.fasta sequence2.fasta --output-dir plots
+seqdot sequence1.fasta sequence2.fasta --output-dir plots/
+```
+
+## Include self-comparisons
+
+To include self-comparisons when plotting a multi-sequence FASTA file with `--all-vs-all`:
+
+```bash
+seqdot --file sequences.fasta --all-vs-all --include-self
 ```
 
 ---

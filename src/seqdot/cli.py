@@ -9,7 +9,13 @@ from pathlib import Path
 
 app = typer.Typer(
     name="SeqDot",
-    help="Create dotplots from sequence files."
+    help="""
+Generate dotplots from sequence files.
+
+Supports:
+- comparison of two FASTA files
+- all-vs-all comparison from a multi-FASTA file
+"""
 )
 
 
@@ -26,7 +32,7 @@ def main(
     input_file: str | None = typer.Option(
         None,
         "--file",
-        help="Multiple FASTA file for all-vs-all comparison"
+        help="Multiple FASTA input file for all-vs-all comparison"
     ),
     all_vs_all: bool = typer.Option(
         False,
@@ -36,7 +42,7 @@ def main(
     include_self: bool = typer.Option(
         False,
         "--include-self",
-        help="Include comparisons of sequences against themselves"
+        help="Include self-comparisons in all-vs-all mode"
     ),
     kmer: int = typer.Option(
         11,
@@ -53,7 +59,7 @@ def main(
     output_dir: str | None = typer.Option(
         None,
         "--output-dir",
-        help="Directory where output files are saved"
+        help="Directory where output files are saved, especially useful for batch mode"
     ),
     alphabet: str = typer.Option(
         "DNA",
@@ -148,7 +154,7 @@ def main(
         "both"
     ]:
         raise typer.BadParameter(
-            "strand must be 'forward' or 'reverse'"
+            "strand must be 'forward' or 'reverse', or 'both'"
         )
 
     typer.echo(
