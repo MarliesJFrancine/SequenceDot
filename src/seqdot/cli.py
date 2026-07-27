@@ -58,7 +58,8 @@ def main(
     
     if strand not in [
         "forward",
-        "reverse"
+        "reverse",
+        "both"
     ]:
         raise typer.BadParameter(
             "strand must be 'forward' or 'reverse'"
@@ -83,6 +84,36 @@ def main(
         kmer
     )
 
+    # Add strand information to forward matches
+    matches = [
+        (x, y, "forward")
+        for x, y in matches
+    ]
+
+
+    if strand in ["reverse", "both"]:
+
+        reverse_seq2 = reverse_complement(
+            seq2["sequence"]
+        )
+
+        reverse_matches = find_kmer_matches(
+            reverse_seq2,
+            index,
+            kmer
+        )
+
+        reverse_matches = [
+            (x, y, "reverse")
+            for x, y in reverse_matches
+        ]
+
+        if strand == "reverse":
+            matches = reverse_matches
+
+        elif strand == "both":
+            matches.extend(reverse_matches)
+
     typer.echo(
         f"Found {len(matches)} matching k-mers"
     )
@@ -91,6 +122,7 @@ def main(
         matches,
         seq1["length"],
         seq2["length"],
+        kmer,
         seq1["name"],
         seq2["name"],
         output

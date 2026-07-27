@@ -5,6 +5,7 @@ def create_dotplot(
     matches,
     length1,
     length2,
+    kmer,
     name1="Sequence 1",
     name2="Sequence 2",
     output_file="dotplot.png"
@@ -33,27 +34,56 @@ def create_dotplot(
         Output image filename.
     """
 
-    x = [match[0] for match in matches]
-    y = [match[1] for match in matches]
+    
+    forward_x = []
+    forward_y = []
+
+    reverse_x = []
+    reverse_y = []
+
+    for x, y, strand in matches:
+
+        if strand == "forward":
+            forward_x.append(x)
+            forward_y.append(y)
+
+        elif strand == "reverse":
+            reverse_x.append(x)
+
+            # Flip the reverse strand onto the original coordinate system
+            reverse_y.append(length2 - y - kmer)
 
     fig, ax = plt.subplots(
         figsize=(8, 8),
         dpi=300
     )
+    
+    ax.scatter(
+        forward_x,
+        forward_y,
+        s=1,
+        marker=".",
+        color="steelblue",
+        label="Forward"
+    )
 
     ax.scatter(
-        x,
-        y,
-        s=0.5,
-        marker="."
+        reverse_x,
+        reverse_y,
+        s=1,
+        marker=".",
+        color="darkorange",
+        label="Reverse complement"
     )
+
+    ax.legend()
     
     ax.ticklabel_format(
         style="plain"
     )
 
     ax.set_xlim(0, length1)
-    ax.set_ylim(0, length2)
+    ax.set_ylim(length2, 0)
 
     ax.set_xlabel(name1)
     ax.set_ylabel(name2)
