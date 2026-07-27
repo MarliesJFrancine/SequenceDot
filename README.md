@@ -4,9 +4,9 @@ SeqDot is a command-line tool for generating k-mer based dotplots from biologica
 
 It supports DNA, RNA, and protein sequences and can compare sequences in forward, reverse-complement, or both directions.
 
-## Features
+### Features
 
-### K-mer based sequence comparison
+#### K-mer based sequence comparison
 
 The default k-mer size is 11.
 
@@ -14,7 +14,7 @@ For shorter sequences, a smaller k-mer size might be required. For longer sequen
 
 Values between 1 and 100 are accepted.
 
-### DNA, RNA, and amino acid sequences
+#### DNA, RNA, and amino acid sequences
 
 The default expectation is DNA sequences.
 
@@ -27,7 +27,7 @@ Other supported alphabets are:
 
 For amino acid sequences, all valid amino acid characters are accepted.
 
-### Forward and reverse-complement comparisons
+#### Forward and reverse-complement comparisons
 
 The default is forward strand comparison.
 
@@ -39,11 +39,11 @@ Available options are:
 
 Forward matches are shown along the main diagonal. Reverse-complement matches are shown along the anti-diagonal.
 
-### Coloured strand-aware dotplots
+#### Coloured strand-aware dotplots
 
 When using `--strand both`, forward and reverse-complement matches are shown as different colours on the same dotplot.
 
-### Adjustable dot size
+#### Adjustable dot size
 
 The default dot size is 1.
 
@@ -51,7 +51,7 @@ The optimal dot size depends on sequence length and the desired plot resolution.
 
 Values between 1 and 100 are accepted.
 
-### High-resolution output
+#### High-resolution output
 
 The default output format is:
 
@@ -71,7 +71,7 @@ Example:
 seqdot sequence1.fasta sequence2.fasta --output comparison.pdf
 ```
 
-### All-vs-all comparisons
+#### All-vs-all comparisons
 
 SeqDot can compare all sequences in a multi-sequence FASTA file against each other.
 
@@ -83,29 +83,29 @@ seqdot --file sequences.fasta --all-vs-all
 
 ---
 
-# Installation
+### Installation
 
-## Clone the repository
+#### Clone the repository
 
 ```bash
 git clone https://github.com/MarliesJFrancine/SeqDot.git
 cd SeqDot
 ```
 
-## Create and activate an environment
+#### Create and activate an environment
 
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
 ```
 
-## Install SeqDot
+#### Install SeqDot
 
 ```bash
 pip install .
 ```
 
-## Developmental installation
+#### Developmental installation
 
 For development, install SeqDot in editable mode:
 
@@ -115,7 +115,7 @@ pip install -e .
 
 ---
 
-# Basic usage
+###  Usage
 
 Generate a dotplot from two sequence files:
 
@@ -123,7 +123,7 @@ Generate a dotplot from two sequence files:
 seqdot sequence1.fasta sequence2.fasta
 ```
 
-By default:
+Default values:
 
 ```
 --kmer = 11
@@ -141,57 +141,57 @@ seqdot --help
 
 ---
 
-# Optional features
+### Optional features
 
-## Change k-mer size
+#### Change k-mer size
 
 ```bash
 seqdot sequence1.fasta sequence2.fasta --kmer 21
 ```
 
-## Compare reverse-complement strands
+#### Compare reverse-complement strands
 
 ```bash
 seqdot sequence1.fasta sequence2.fasta --strand reverse
 ```
 
-## Compare both strands
+#### Compare both strands
 
 ```bash
 seqdot sequence1.fasta sequence2.fasta --strand both
 ```
 
-## Compare amino acid sequences
+#### Compare amino acid sequences
 
 ```bash
 seqdot sequence1.fasta sequence2.fasta --alphabet AA
 ```
 
-## Compare RNA sequences
+#### Compare RNA sequences
 
 ```bash
 seqdot sequence1.fasta sequence2.fasta --alphabet RNA
 ```
 
-## Change dot size
+#### Change dot size
 
 ```bash
 seqdot sequence1.fasta sequence2.fasta --point-size 5
 ```
 
-## Change output name and format
+#### Change output name and format
 
 ```bash
 seqdot sequence1.fasta sequence2.fasta --output comparison.pdf
 ```
 
-## Save output in a directory
+#### Save output in a directory
 
 ```bash
 seqdot sequence1.fasta sequence2.fasta --output-dir plots/
 ```
 
-## Include self-comparisons
+#### Include self-comparisons
 
 To include self-comparisons when plotting a multi-sequence FASTA file with `--all-vs-all`:
 
@@ -201,7 +201,7 @@ seqdot --file sequences.fasta --all-vs-all --include-self
 
 ---
 
-# Run tests
+#### Run tests
 
 SeqDot uses `pytest` for automated testing.
 
