@@ -18,3 +18,62 @@ def read_fasta(filename, alphabet="DNA"):
         ),
         "length": len(record.seq)
     }
+
+
+def read_multi_fasta(filename, alphabet="DNA"):
+    """
+    Read a multi-FASTA file.
+
+    Returns
+    -------
+    list
+        List of sequence dictionaries.
+    """
+
+    sequences = []
+
+    with open(filename, "r") as file:
+
+        name = None
+        sequence = []
+
+        for line in file:
+
+            line = line.strip()
+
+            if not line:
+                continue
+
+            if line.startswith(">"):
+
+                if name is not None:
+                    seq = "".join(sequence).upper()
+
+                    sequences.append(
+                        {
+                            "name": name,
+                            "sequence": seq,
+                            "length": len(seq)
+                        }
+                    )
+
+                name = line[1:].split()[0]
+                sequence = []
+
+            else:
+                sequence.append(line)
+
+        # add final sequence
+        if name is not None:
+
+            seq = "".join(sequence).upper()
+
+            sequences.append(
+                {
+                    "name": name,
+                    "sequence": seq,
+                    "length": len(seq)
+                }
+            )
+
+    return sequences
