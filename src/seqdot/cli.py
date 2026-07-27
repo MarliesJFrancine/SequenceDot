@@ -2,7 +2,7 @@ import typer
 
 from seqdot.compare import compare_sequences
 from seqdot.fasta import read_fasta
-from seqdot.utils import make_output_filename
+from seqdot.utils import make_output_filename, check_for_gaps
 from pathlib import Path
 
 
@@ -59,6 +59,14 @@ def main(
 
     seq1 = read_fasta(sequence1, alphabet)
     seq2 = read_fasta(sequence2, alphabet)
+    
+    for seq in [seq1, seq2]:
+
+        if check_for_gaps(seq["sequence"]):
+            typer.echo(
+                f"Warning: {seq['name']} contains gap characters (-). "
+                "SeqDot is designed for unaligned sequences."
+            )
     
     if output is None:
         output = make_output_filename(

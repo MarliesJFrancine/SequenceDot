@@ -85,3 +85,14 @@ def reverse_complement(sequence):
         raise ValueError(
             f"Invalid DNA character: {e.args[0]}"
         )
+
+
+def check_for_gaps(sequence, name="sequence"):
+    """
+    Check whether a sequence contains alignment gap characters.
+    """
+
+    if "-" in sequence:
+        return True
+
+    return False
