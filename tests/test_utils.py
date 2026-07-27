@@ -30,7 +30,7 @@ def test_make_output_filename():
         "seq2"
     )
 
-    assert filename == "seq1_seq2.png"
+    assert filename == "seq1_vs_seq2.png"
         
 
 def test_make_output_filename_sanitizes_names():
@@ -40,4 +40,4 @@ def test_make_output_filename_sanitizes_names():
         "sample two"
     )
 
-    assert filename == "sample_one_sample_two.png"
+    assert filename == "sample_one_vs_sample_two.png"

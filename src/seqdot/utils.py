@@ -20,7 +20,7 @@ def make_output_filename(name1, name2, extension="png"):
     name1 = sanitize_filename(name1)
     name2 = sanitize_filename(name2)
 
-    return f"{name1}_{name2}.{extension}"
+    return f"{name1}_vs_{name2}.{extension}"
 
 
 ALPHABETS = {
