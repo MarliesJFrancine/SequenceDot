@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-title: "SeqDot"
+title: "SeqDot: a command-line tool for generating k-mer based dotplots from biological sequences"
 message: "Please cite SeqDot if you use it for your data analysis"
 type: software
 
