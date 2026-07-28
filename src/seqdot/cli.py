@@ -4,17 +4,18 @@ from seqdot.compare import compare_sequences
 from seqdot.fasta import read_fasta, read_multi_fasta
 from seqdot.batch import run_all_vs_all
 from seqdot.utils import make_output_filename, check_for_gaps
+from seqdot.report import write_summary
 from pathlib import Path
 
 
 app = typer.Typer(
     name="SeqDot",
     help="""
-Generate dotplots from sequence files.
+Create k-mer-based dotplots from unaligned sequences
 
 Supports:
 - comparison of two FASTA files
-- all-vs-all comparison from a multi-FASTA file
+- all-vs-all comparison from a multi-sequence FASTA file
 """
 )
 
@@ -32,12 +33,12 @@ def main(
     input_file: str | None = typer.Option(
         None,
         "--file",
-        help="Multiple FASTA input file for all-vs-all comparison"
+        help="Multiple FASTA input file for batch comparison"
     ),
     all_vs_all: bool = typer.Option(
         False,
         "--all-vs-all",
-        help="Compare every sequence against every other sequence, default: NOT include self (add --include-self)"
+        help="Compare every sequence against every other sequence in --file, default does NOT include self (add --include-self)"
     ),
     include_self: bool = typer.Option(
         False,
@@ -48,35 +49,35 @@ def main(
         11,
         "--kmer",
         "-k",
-        help="Length of k-mer used for matching, default: 11"
+        help="Length of k-mer used for matching"
     ),
     output: str | None = typer.Option(
         None,
         "--output",
         "-o",
-        help="Output image file (.png, .pdf, .svg)"
+        help="Output file for single comparisons (.png, .pdf, .svg)"
     ),
     output_dir: str | None = typer.Option(
         None,
         "--output-dir",
-        help="Directory where output files are saved, especially useful for batch mode"
+        help="Directory where output files are written, specifically useful for batch mode"
     ),
     alphabet: str = typer.Option(
         "DNA",
         "--alphabet",
         "-a",
-        help="Sequence alphabet: DNA, RNA, or AA, default: DNA"
+        help="Sequence alphabet: DNA, RNA, or AA"
     ),
     strand: str = typer.Option(
         "forward",
         "--strand",
         "-s",
-        help="Compare forward strand, reverse complement, or both, default: forward"
+        help="Compare forward strand, reverse complement, or both"
     ),
     point_size: float = typer.Option(
         1,
         "--point-size",
-        help="Size of dots in the plot, default: 1"
+        help="Size of dots in the plot"
     )
 ):
 
@@ -113,6 +114,11 @@ def main(
             output_dir,
             point_size,
             include_self
+        )
+        
+        write_summary(
+            results,
+            output_dir
         )
 
         typer.echo(
