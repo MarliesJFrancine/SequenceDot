@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+title: "SeqDot"
+message: "Please cite SeqDot if you use it for your data analysis"
+type: software
+
+authors:
+  - family-names: Goedknegt
+    given-names: Marlies Jilles Francine
+
+repository-code: "https://github.com/MarliesJFrancine/SeqDot"
+
+license: GPL-3.0
+
+version: 0.1.0
+
+date-released: 2026-07-28
