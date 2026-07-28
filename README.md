@@ -4,7 +4,7 @@ SeqDot is a command-line tool for generating k-mer based dotplots from biologica
 
 It supports DNA, RNA, and protein sequences and can compare sequences in forward, reverse-complement, or both directions.
 
-#### Example output
+#### Output example
 
 SeqDot can visualize both forward and reverse-complement sequence similarity.
 Forward matches appear as a diagonal, while reverse-complement matches appear as an anti-diagonal.
@@ -259,7 +259,7 @@ seqdot sequence1.fasta sequence2.fasta --output comparison.pdf
 #### Save output in a directory
 
 ```bash
-seqdot sequence1.fasta sequence2.fasta --output-dir plots/
+seqdot --file sequences.fasta --all-vs-all --output-dir plots/
 ```
 
 #### Include self-comparisons
@@ -267,7 +267,7 @@ seqdot sequence1.fasta sequence2.fasta --output-dir plots/
 To include self-comparisons when plotting a multi-sequence FASTA file with `--all-vs-all`:
 
 ```bash
-seqdot --file sequences.fasta --all-vs-all --include-self
+seqdot --file sequences.fasta --all-vs-all --include-self --output-dir plots/
 ```
 
 ---
