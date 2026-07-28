@@ -9,7 +9,7 @@ It supports DNA, RNA, and protein sequences and can compare sequences in forward
 SeqDot can visualize both forward and reverse-complement sequence similarity.
 Forward matches appear as a diagonal, while reverse-complement matches appear as an anti-diagonal.
 
-<img width="784" height="790" alt="example" src="https://github.com/user-attachments/assets/3f34911a-742e-4e4c-9866-8602959f5b64" />
+<img width="588" height="593" alt="example" src="https://github.com/user-attachments/assets/3f34911a-742e-4e4c-9866-8602959f5b64" />
 
 Plot generated with:
 
