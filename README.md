@@ -96,11 +96,11 @@ seqdot --file sequences.fasta --all-vs-all
 
 Output plots are written to the output directory, together with summary `.tsv` file.
 Default directory is `/seqdot_results/`. Placed in directory where seqdot is run.
-This directory can be defined by user, with `--output-dir`.
-
-By default, self-comparisons are skipped. To include these, use `--include-self`.
+This directory can be defined with `--output-dir`.
 
 A progress bar is shown in the terminal by default. Can be turned off with `--silent`.
+
+By default, self-comparisons are skipped. To include these, use `--include-self`.
 
 #### Output file naming
 
