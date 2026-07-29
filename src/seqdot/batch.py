@@ -1,4 +1,8 @@
+import typer
+
 from itertools import combinations
+
+from tqdm import tqdm
 
 from seqdot.compare import compare_sequences
 from seqdot.utils import make_output_filename
@@ -45,7 +49,8 @@ def run_all_vs_all(
     strand,
     output_dir,
     point_size=1,
-    include_self=False
+    include_self=False,
+    silent=False
 ):
     """
     Run all-vs-all sequence comparisons.
@@ -55,10 +60,40 @@ def run_all_vs_all(
         sequences,
         include_self
     )
-
+    
     results = []
 
-    for seq1, seq2 in pairs:
+    if not silent:
+
+        typer.echo(f"Found {len(sequences)} sequences")
+        typer.echo()
+
+        typer.echo("Mode: all-vs-all")
+        typer.echo("Include self-comparisons: " + ("yes" if include_self else "no"))
+        typer.echo()
+
+        typer.echo(f"Total comparisons: {len(pairs)}")
+        typer.echo()
+
+        iterator = tqdm(
+            pairs,
+            total=len(pairs),
+            desc="Comparisons",
+            unit="comparison"
+        )
+
+    else:
+
+        iterator = pairs
+
+
+    for seq1, seq2 in iterator:
+        
+        if not silent:
+
+            iterator.set_postfix_str(
+                f"{seq1['name']} vs {seq2['name']}"
+            )
 
         output_file = make_output_filename(
             seq1["name"],
@@ -83,5 +118,11 @@ def run_all_vs_all(
                 "matches": matches
             }
         )
+    
+    if not silent:
+
+        typer.echo()
+        typer.echo(f"Completed {len(pairs)} comparisons.")
+        typer.echo(f"Summary written to {summary_file}")
 
     return results

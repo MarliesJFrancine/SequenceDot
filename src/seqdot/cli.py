@@ -78,6 +78,11 @@ def main(
         1,
         "--point-size",
         help="Size of dots in the plot"
+    ),
+    silent: bool = typer.Option(
+        False,
+        "--silent",
+        help="Suppress progress bar during batch processing."
     )
 ):
 
