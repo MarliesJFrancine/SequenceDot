@@ -107,7 +107,7 @@ def create_dotplot(
     ax.set_ylabel(name2)
 
     ax.set_title(
-        f"SeqDot: {name1} vs {name2}"
+        f"SequenceDot: {name1} vs {name2}"
     )
 
     ax.set_aspect("equal")
