@@ -43,6 +43,23 @@ def generate_pairs(sequences, include_self=False):
         )
 
 
+def format_pair_name(seq1, seq2, max_length=20):
+    """
+    Format sequence names for the progress bar.
+    """
+
+    def shorten(name):
+        if len(name) <= max_length:
+            return name
+
+        return name[: max_length - 3] + "..."
+
+    return (
+        f"{shorten(seq1['name'])} vs "
+        f"{shorten(seq2['name'])}"
+    )
+
+
 def run_all_vs_all(
     sequences,
     kmer,
@@ -92,7 +109,8 @@ def run_all_vs_all(
         if not silent:
 
             iterator.set_postfix_str(
-                f"{seq1['name']} vs {seq2['name']}"
+                "Current: "
+                + format_pair_name(seq1, seq2)
             )
 
         output_file = make_output_filename(
@@ -122,7 +140,9 @@ def run_all_vs_all(
     if not silent:
 
         typer.echo()
-        typer.echo(f"Completed {len(pairs)} comparisons.")
-        typer.echo(f"Summary written to {summary_file}")
+        typer.echo("✔ Batch comparison completed")
+        typer.echo(f"Number of dotplots created: {len(pairs)}")
+        typer.echo(f"Plots written to: {output_dir}")
+        typer.eche(f"Summary written to {summary_file}")
 
     return results
