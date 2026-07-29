@@ -6,10 +6,10 @@ It supports DNA, RNA, and protein sequences and can compare sequences in forward
 
 #### Output example
 
-SequenceDot can visualize both forward and reverse-complement sequence similarity.
+SequenceDot can visualise both forward and reverse-complement sequence similarity.
 Forward matches appear as a diagonal, while reverse-complement matches appear as an anti-diagonal.
 
-<img width="353" height="355" alt="example" src="https://github.com/user-attachments/assets/3f34911a-742e-4e4c-9866-8602959f5b64" />
+<img width="353" height="355" alt="example" src="https://github.com/user-attachments/assets/07ae37f0-0f0f-4cef-a375-df2a13f35f4f" />
 
 Plot generated with:
 
@@ -95,7 +95,7 @@ seqdot --file sequences.fasta --all-vs-all
 ```
 
 Output plots are written to the output directory, together with summary `.tsv` file.
-Default directory is `/seqdot_results/`. Placed in directory where seqdot is run.
+Default directory is `/seqdot_results/`. Placed in directory where SequenceDot is run.
 This directory can be defined with `--output-dir`.
 
 A progress bar is shown in the terminal by default. Can be turned off with `--silent`.
