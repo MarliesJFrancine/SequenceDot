@@ -98,7 +98,9 @@ Output plots are written to the output directory, together with summary `.tsv` f
 Default directory is `/seqdot_results/`. Placed in directory where seqdot is run.
 This directory can be defined by user, with `--output-dir`.
 
-Note: By default, self-comparisons are skipped. To include them, use `--include-self`.
+By default, self-comparisons are skipped. To include these, use `--include-self`.
+
+A progress bar is shown in the terminal by default. Can be turned off with `--silent`.
 
 #### Output file naming
 
