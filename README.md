@@ -1,12 +1,12 @@
-# SeqDot
+# SequenceDot
 
-SeqDot is a command-line tool for generating k-mer based dotplots from biological sequences.
+SequenceDot is a command-line tool for generating k-mer based dotplots from biological sequences.
 
 It supports DNA, RNA, and protein sequences and can compare sequences in forward, reverse-complement, or both directions.
 
 #### Output example
 
-SeqDot can visualize both forward and reverse-complement sequence similarity.
+SequenceDot can visualize both forward and reverse-complement sequence similarity.
 Forward matches appear as a diagonal, while reverse-complement matches appear as an anti-diagonal.
 
 <img width="353" height="355" alt="example" src="https://github.com/user-attachments/assets/3f34911a-742e-4e4c-9866-8602959f5b64" />
@@ -86,7 +86,7 @@ seqdot sequence1.fasta sequence2.fasta --output comparison.pdf
 
 #### All-vs-all batch comparison
 
-SeqDot can compare each sequence in a multi-sequence FASTA file against all other sequences.
+SequenceDot can compare each sequence in a multi-sequence FASTA file against all other sequences.
 
 Example:
 
@@ -139,8 +139,8 @@ It contains one row per comparison:
 #### Clone the repository
 
 ```bash
-git clone https://github.com/MarliesJFrancine/SeqDot.git
-cd SeqDot
+git clone https://github.com/MarliesJFrancine/SequenceDot.git
+cd SequenceDot
 ```
 
 #### Create and activate an environment
@@ -150,7 +150,7 @@ python3 -m venv .venv
 source .venv/bin/activate
 ```
 
-#### Install SeqDot
+#### Install SequenceDot
 
 ```bash
 pip install .
@@ -158,7 +158,7 @@ pip install .
 
 #### Developmental installation
 
-For development, install SeqDot in editable mode:
+For development, install SequenceDot in editable mode:
 
 ```bash
 pip install -e .
@@ -194,7 +194,7 @@ seqdot --help
 
 ###  Input requirements
 
-SeqDot is designed for **unaligned biological sequences**.
+SequenceDot is designed for **unaligned biological sequences**.
 
 Accepted input:
 
@@ -207,10 +207,10 @@ The following characters are handled as follows:
 |----------|-----------|-----------|
 | N (DNA/RNA) | Unknown nucleotide | k-mers containing N are ignored |
 | X (protein) | Unknown amino acid | k-mers containing X are ignored |
-| - (gap) | Alignment gap | SeqDot will report an error because the input appears to be an alignment |
-| Any other invalid character | Invalid sequence | SeqDot will reprot an error because the input is not recognized as DNA, RNA, or AA |
+| - (gap) | Alignment gap | SequenceDot will report an error because the input appears to be an alignment |
+| Any other invalid character | Invalid sequence | SequenceDot will reprot an error because the input is not recognized as DNA, RNA, or AA |
 
-Gap characters (`-`) indicate an aligned sequence. SeqDot compares raw sequences using k-mers and therefore does not accept aligned sequences containing gaps.
+Gap characters (`-`) indicate an aligned sequence. SequenceDot compares raw sequences using k-mers and therefore does not accept aligned sequences containing gaps.
 
 ---
 
@@ -276,7 +276,7 @@ seqdot --file sequences.fasta --all-vs-all --include-self --output-dir plots/
 
 #### Run tests
 
-SeqDot uses `pytest` for automated testing.
+SequenceDot uses `pytest` for automated testing.
 
 Run:
 

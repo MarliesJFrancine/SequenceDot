@@ -9,7 +9,7 @@ from pathlib import Path
 
 
 app = typer.Typer(
-    name="SeqDot",
+    name="SequenceDot",
     help="""
 Create k-mer-based dotplots from unaligned sequences
 
@@ -33,7 +33,7 @@ def main(
     input_file: str | None = typer.Option(
         None,
         "--file",
-        help="Multiple FASTA input file for batch comparison"
+        help="Multiple sequence FASTA input file for batch comparison"
     ),
     all_vs_all: bool = typer.Option(
         False,

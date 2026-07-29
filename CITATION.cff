@@ -1,13 +1,13 @@
 cff-version: 1.2.0
-title: "SeqDot: a command-line tool for generating k-mer based dotplots from biological sequences"
-message: "Please cite SeqDot if you use it for your data analysis"
+title: "SequenceDot: a command-line tool for generating k-mer based dotplots from biological sequences"
+message: "Please cite SequenceDot if you use it for your data analysis"
 type: software
 
 authors:
   - family-names: Goedknegt
     given-names: Marlies Jilles Francine
 
-repository-code: "https://github.com/MarliesJFrancine/SeqDot"
+repository-code: "https://github.com/MarliesJFrancine/SequenceDot"
 
 license: GPL-3.0
 
