@@ -104,13 +104,13 @@ By default, self-comparisons are skipped. To include these, use `--include-self`
 
 #### Output file naming
 
-Default for single comparisons:
+As a default for single comparisons, the file name is based on the two input sequences:
 
 ```text
 sequence1_vs_sequence2.png
 ```
 
-Default for batch comparisons:
+As a default for batch comparisons, a folder `seqdot_results/` is created.
 
 ```text
 seqdot_results/
@@ -119,6 +119,8 @@ seqdot_results/
 ├── sequence2_vs_sequence3.png
 └── comparisons.tsv
 ```
+
+Both default settings can be altered in the command line with `--output` for single plots and `--output-dir` for folders.
 
 #### Summary TSV file generation
 
