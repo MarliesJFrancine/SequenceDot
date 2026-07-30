@@ -59,6 +59,40 @@ def format_pair_name(seq1, seq2, max_length=20):
         f"{shorten(seq2['name'])}"
     )
 
+def compare_pair(
+    seq1,
+    seq2,
+    kmer,
+    strand,
+    output_dir,
+    point_size,
+):
+    """
+    Compare a single pair of sequences.
+    """
+
+    output_file = make_output_filename(
+        seq1["name"],
+        seq2["name"]
+    )
+
+    output_file = output_dir / output_file
+
+    matches = compare_sequences(
+        seq1,
+        seq2,
+        kmer,
+        strand,
+        str(output_file),
+        point_size
+    )
+
+    return {
+        "seq1": seq1["name"],
+        "seq2": seq2["name"],
+        "matches": matches
+    }
+
 
 def run_all_vs_all(
     sequences,
@@ -67,7 +101,8 @@ def run_all_vs_all(
     output_dir,
     point_size=1,
     include_self=False,
-    silent=False
+    silent=False,
+    threads=1
 ):
     """
     Run all-vs-all sequence comparisons.
@@ -119,30 +154,17 @@ def run_all_vs_all(
                 "Current: "
                 + format_pair_name(seq1, seq2)
             )
-
-        output_file = make_output_filename(
-            seq1["name"],
-            seq2["name"]
-        )
-
-        output_file = output_dir / output_file
-
-        matches = compare_sequences(
+        
+        result = compare_pair(
             seq1,
             seq2,
             kmer,
             strand,
-            str(output_file),
+            output_dir,
             point_size
         )
-
-        results.append(
-            {
-                "seq1": seq1["name"],
-                "seq2": seq2["name"],
-                "matches": matches
-            }
-        )
+        
+        results.append(result)
     
     if not silent:
 
@@ -150,6 +172,5 @@ def run_all_vs_all(
         typer.echo("✔ Batch comparison completed")
         typer.echo(f"Number of dotplots created: {len(pairs)}")
         typer.echo(f"Plots written to: {output_dir}")
-        typer.eche(f"Summary written to {summary_file}")
 
     return results

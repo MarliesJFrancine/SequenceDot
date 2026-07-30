@@ -4,7 +4,7 @@ from seqdot import __version__
 from seqdot.compare import compare_sequences
 from seqdot.fasta import read_fasta, read_multi_fasta
 from seqdot.batch import run_all_vs_all
-from seqdot.utils import make_output_filename, check_for_gaps
+from seqdot.utils import make_output_filename, check_for_gaps, resolve_threads
 from seqdot.report import write_summary
 from pathlib import Path
 
@@ -91,7 +91,7 @@ def main(
     silent: bool = typer.Option(
         False,
         "--silent",
-        help="Suppress progress bar during batch processing."
+        help="Suppress progress bar during batch processing"
     ),
     version: bool = typer.Option(
         False,
@@ -99,8 +99,14 @@ def main(
         "-v",
         callback=version_callback,
         is_eager=True,
-        help="Show SeqDot version and exit."
-    )
+        help="Show SeqDot version and exit"
+    ) #,
+    #threads: str = typer.Option(
+    #   "1",
+    #   "--threads",
+    #   "-t",
+    #   help="Number of threads ('auto' to use all available cores)"
+    #),
 ):
 
 
@@ -130,17 +136,26 @@ def main(
         )
 
         results = run_all_vs_all(
-            sequences,
-            kmer,
-            strand,
-            output_dir,
-            point_size,
-            include_self
+            sequences=sequences,
+            kmer=kmer,
+            strand=strand,
+            output_dir=output_dir,
+            point_size=point_size,
+            include_self=include_self,
+            silent=silent,
+            #threads=resolve_threads(
+            #    threads,
+             #   len(sequences)
+            #)
         )
         
         write_summary(
             results,
             output_dir
+        )
+        
+        typer.echo(
+            f"Summary written to {output_dir / 'summary.tsv'}"
         )
 
         typer.echo(

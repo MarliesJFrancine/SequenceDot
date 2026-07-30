@@ -1,5 +1,7 @@
 from seqdot.alphabet import DNA, RNA, AA
+
 import re
+import os
 
 
 def sanitize_filename(name):
@@ -96,3 +98,31 @@ def check_for_gaps(sequence, name="sequence"):
         return True
 
     return False
+
+
+def resolve_threads(threads, total_jobs):
+    """
+    Resolve the number of worker processes to use.
+
+    Parameters
+    ----------
+    threads : str
+        Either an integer as a string (e.g. "4") or "auto".
+
+    total_jobs : int
+        Total number of comparisons.
+
+    Returns
+    -------
+    int
+        Number of worker processes.
+    """
+
+    if threads == "auto":
+        workers = os.cpu_count() or 1
+    else:
+        workers = int(threads)
+
+    workers = max(1, workers)
+
+    return min(workers, total_jobs)
