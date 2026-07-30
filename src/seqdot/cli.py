@@ -1,5 +1,6 @@
 import typer
 
+from seqdot import __version__
 from seqdot.compare import compare_sequences
 from seqdot.fasta import read_fasta, read_multi_fasta
 from seqdot.batch import run_all_vs_all
@@ -18,6 +19,14 @@ Supports:
 - all-vs-all comparison from a multi-sequence FASTA file
 """
 )
+
+
+def version_callback(value: bool):
+
+    if value:
+
+        typer.echo(f"SeqDot {__version__}")
+        raise typer.Exit()
 
 
 @app.command()
@@ -83,6 +92,14 @@ def main(
         False,
         "--silent",
         help="Suppress progress bar during batch processing."
+    ),
+    version: bool = typer.Option(
+        False,
+        "--version",
+        "-v",
+        callback=version_callback,
+        is_eager=True,
+        help="Show SeqDot version and exit."
     )
 ):
 
