@@ -16,7 +16,8 @@ def read_fasta(filename, alphabet="DNA"):
             str(record.seq),
             alphabet
         ),
-        "length": len(record.seq)
+        "length": len(record.seq),
+        "index": None
     }
 
 

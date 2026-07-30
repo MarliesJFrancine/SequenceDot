@@ -4,7 +4,7 @@ from itertools import combinations
 
 from tqdm import tqdm
 
-from seqdot.compare import compare_sequences
+from seqdot.compare import compare_sequences, ensure_index
 from seqdot.utils import make_output_filename
 
 
@@ -77,6 +77,13 @@ def run_all_vs_all(
         sequences,
         include_self
     )
+    
+    for seq in sequences:
+
+        ensure_index(
+            seq,
+            kmer
+        )
     
     results = []
 

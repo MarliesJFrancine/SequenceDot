@@ -1,4 +1,4 @@
-from seqdot.kmer import build_kmer_index, find_kmer_matches
+from seqdot.kmer import build_kmer_index, find_kmer_matches, build_kmer_index
 from seqdot.plot import create_dotplot
 from seqdot.utils import reverse_complement
 
@@ -18,6 +18,25 @@ def add_strand(matches, strand):
         (x, y, strand)
         for x, y in matches
     ]
+
+
+def ensure_index(sequence, kmer):
+    """
+    Build a k-mer index once and reuse it.
+    """
+
+    if (
+        "kmer_index" not in sequence
+        or sequence["kmer_index"] is None
+        or sequence.get("kmer_index_k") != kmer
+    ):
+
+        sequence["kmer_index"] = build_kmer_index(
+            sequence["sequence"],
+            kmer
+        )
+
+        sequence["kmer_index_k"] = kmer
 
 
 def compare_sequences(
@@ -61,11 +80,13 @@ def compare_sequences(
 
     # Forward comparison
     if strand in ["forward", "both"]:
-
-        index = build_kmer_index(
-            seq1["sequence"],
+        
+        ensure_index(
+            seq1,
             kmer
         )
+
+        index = seq1["kmer_index"]
 
         forward_matches = find_kmer_matches(
             seq2["sequence"],
@@ -87,11 +108,13 @@ def compare_sequences(
         reverse_seq2 = reverse_complement(
             seq2["sequence"]
         )
-
-        index = build_kmer_index(
-            seq1["sequence"],
+        
+        ensure_index(
+            seq1,
             kmer
         )
+
+        index = seq1["kmer_index"]
 
         reverse_matches = find_kmer_matches(
             reverse_seq2,
