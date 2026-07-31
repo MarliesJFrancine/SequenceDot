@@ -134,6 +134,22 @@ It contains one row per comparison:
 | seq1 | seq2 | 153 |
 | seq1 | seq3 | 88 |
 
+#### Parallel processing
+
+When running `--all-vs-all`, SequenceDot can use multiple CPU cores.
+
+To automatically use all available cores:
+
+```bash
+seqdot --file sequences.fasta --all-vs-all --threads auto
+```
+
+To specify the number of CPU cores:
+
+```bash
+seqdot --file sequences.fasta --all-vs-all --threads 4
+```
+
 ---
 
 ### Installation

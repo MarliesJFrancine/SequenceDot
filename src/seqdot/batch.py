@@ -1,4 +1,5 @@
 import typer
+import itertools
 
 from itertools import combinations
 from concurrent.futures import ProcessPoolExecutor, as_completed
@@ -124,15 +125,18 @@ def run_all_vs_all(
     results = []
 
     if not silent:
+    if not silent:
 
-        typer.echo(f"Found {len(sequences)} sequences")
-        typer.echo()
+        typer.echo("SequenceDot batch comparison")
+        typer.echo("-" * 50)
 
-        typer.echo("Mode: all-vs-all")
-        typer.echo("Include self-comparisons: " + ("yes" if include_self else "no"))
-        typer.echo()
+        typer.echo(f"Found sequences      : {len(sequences)}")
+        typer.echo(f"Comparison mode      : all-vs-all")
+        typer.echo(f"Include self         : {'yes' if include_self else 'no'}")
+        typer.echo(f"Total comparisons    : {len(pairs)}")
+        typer.echo(f"CPU threads          : {threads}")
 
-        typer.echo(f"Total comparisons: {len(pairs)}")
+        typer.echo("-" * 50)
         typer.echo()
 
     results = []
@@ -140,22 +144,22 @@ def run_all_vs_all(
     with ProcessPoolExecutor(
         max_workers=threads
     ) as executor:
-
-        futures = []
+    
+        future_to_pair = {}
 
         for seq1, seq2 in pairs:
 
-            futures.append(
-                executor.submit(
-                    compare_pair,
-                    seq1,
-                    seq2,
-                    kmer,
-                    strand,
-                    output_dir,
-                    point_size
-                )
+            future = executor.submit(
+                compare_pair,
+                seq1,
+                seq2,
+                kmer,
+                strand,
+                output_dir,
+                point_size
             )
+
+            future_to_pair[future] = (seq1, seq2)
 
         if not silent:
 
@@ -164,8 +168,14 @@ def run_all_vs_all(
                 desc="Comparisons",
                 unit="comparison"
             ) as pbar:
+                
+                for future in as_completed(future_to_pair):
 
-                for future in as_completed(futures):
+                    seq1, seq2 = future_to_pair[future]
+
+                    pbar.set_postfix_str(
+                        format_pair_name(seq1, seq2)
+                    )
 
                     results.append(
                         future.result()
@@ -174,8 +184,8 @@ def run_all_vs_all(
                     pbar.update(1)
 
         else:
-
-            for future in as_completed(futures):
+            
+            for future in as_completed(future_to_pair):
 
                 results.append(
                     future.result()
@@ -185,7 +195,7 @@ def run_all_vs_all(
 
         typer.echo()
         typer.echo("✔ Batch comparison completed")
-        typer.echo(f"Number of dotplots created: {len(pairs)}")
+        typer.echo(f"Number of dotplots created: {len(results)}")
         typer.echo(f"Plots written to: {output_dir}")
 
     return results
