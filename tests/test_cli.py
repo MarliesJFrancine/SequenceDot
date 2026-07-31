@@ -19,7 +19,7 @@ def test_help():
     )
 
     assert result.exit_code == 0
-    assert "SeqDot" in result.stdout
+    assert "SequenceDot" in result.stdout
     assert "--kmer" in result.stdout
     assert "--strand" in result.stdout
 
@@ -32,7 +32,7 @@ def test_version():
     )
 
     assert result.exit_code == 0
-    assert result.stdout.strip() == f"SeqDot {__version__}"
+    assert result.stdout.strip() == f"SequenceDot {__version__}"
 
 
 def test_version_short():
@@ -43,7 +43,7 @@ def test_version_short():
     )
 
     assert result.exit_code == 0
-    assert result.stdout.strip() == f"SeqDot {__version__}"
+    assert result.stdout.strip() == f"SequenceDot {__version__}"
 
 
 def test_invalid_strand():

@@ -25,7 +25,7 @@ def version_callback(value: bool):
 
     if value:
 
-        typer.echo(f"SeqDot {__version__}")
+        typer.echo(f"SequenceDot {__version__}")
         raise typer.Exit()
 
 
@@ -99,14 +99,14 @@ def main(
         "-v",
         callback=version_callback,
         is_eager=True,
-        help="Show SeqDot version and exit"
-    ) #,
-    #threads: str = typer.Option(
-    #   "1",
-    #   "--threads",
-    #   "-t",
-    #   help="Number of threads ('auto' to use all available cores)"
-    #),
+        help="Show SequenceDot version and exit"
+    ),
+    threads: str = typer.Option(
+        "auto",
+        "--threads",
+        "-t",
+        help="Number of CPU threads (default: auto)"
+    )
 ):
 
 
@@ -143,10 +143,10 @@ def main(
             point_size=point_size,
             include_self=include_self,
             silent=silent,
-            #threads=resolve_threads(
-            #    threads,
-             #   len(sequences)
-            #)
+            threads=resolve_threads(
+                threads,
+                len(sequences)
+            )
         )
         
         write_summary(
@@ -156,10 +156,6 @@ def main(
         
         typer.echo(
             f"Summary written to {output_dir / 'summary.tsv'}"
-        )
-
-        typer.echo(
-            f"Created {len(results)} dotplots"
         )
 
         raise typer.Exit()
@@ -172,7 +168,7 @@ def main(
         if check_for_gaps(seq["sequence"]):
             typer.echo(
                 f"Warning: {seq['name']} contains gap characters (-). "
-                "SeqDot is designed for unaligned sequences."
+                "SequenceDot is designed for unaligned sequences."
             )
     
     if output is None:

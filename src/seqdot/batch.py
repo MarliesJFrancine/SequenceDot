@@ -1,6 +1,7 @@
 import typer
 
 from itertools import combinations
+from concurrent.futures import ProcessPoolExecutor, as_completed
 
 from tqdm import tqdm
 
@@ -134,37 +135,51 @@ def run_all_vs_all(
         typer.echo(f"Total comparisons: {len(pairs)}")
         typer.echo()
 
-        iterator = tqdm(
-            pairs,
-            total=len(pairs),
-            desc="Comparisons",
-            unit="comparison"
-        )
+    results = []
 
-    else:
+    with ProcessPoolExecutor(
+        max_workers=threads
+    ) as executor:
 
-        iterator = pairs
+        futures = []
 
+        for seq1, seq2 in pairs:
 
-    for seq1, seq2 in iterator:
-        
+            futures.append(
+                executor.submit(
+                    compare_pair,
+                    seq1,
+                    seq2,
+                    kmer,
+                    strand,
+                    output_dir,
+                    point_size
+                )
+            )
+
         if not silent:
 
-            iterator.set_postfix_str(
-                "Current: "
-                + format_pair_name(seq1, seq2)
-            )
-        
-        result = compare_pair(
-            seq1,
-            seq2,
-            kmer,
-            strand,
-            output_dir,
-            point_size
-        )
-        
-        results.append(result)
+            with tqdm(
+                total=len(futures),
+                desc="Comparisons",
+                unit="comparison"
+            ) as pbar:
+
+                for future in as_completed(futures):
+
+                    results.append(
+                        future.result()
+                    )
+
+                    pbar.update(1)
+
+        else:
+
+            for future in as_completed(futures):
+
+                results.append(
+                    future.result()
+                )
     
     if not silent:
 
