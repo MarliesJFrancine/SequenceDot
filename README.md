@@ -4,8 +4,6 @@ SequenceDot is a command-line tool for generating k-mer based dotplots from biol
 
 It supports DNA, RNA, and protein sequences and can compare sequences in forward, reverse-complement, or both directions.
 
-Newest version: 0.2.0
-
 #### Output example
 
 SequenceDot can visualise both forward and reverse-complement sequence similarity.
