@@ -32,7 +32,7 @@ ALPHABETS = {
 }
 
 
-def clean_sequence(sequence, alphabet="DNA"):
+def clean_sequence(sequence, alphabet="DNA", record_name=None):
     """
     Clean and validate sequence characters.
     """
@@ -54,12 +54,23 @@ def clean_sequence(sequence, alphabet="DNA"):
 
     allowed = ALPHABETS[alphabet]
 
-    invalid = set(sequence) - allowed
+    invalid = sorted(set(sequence) - allowed)
 
     if invalid:
-        raise ValueError(
-            f"Invalid characters for {alphabet}: {invalid}"
-        )
+        
+        invalid_characters = ", ".join(invalid)
+        
+        if record_name is None:
+            raise ValueError(
+                f"Invalid characters for {alphabet}: "
+                f"{invalid_characters}"
+            )
+        
+        else:
+            raise ValueError(
+                f"Sequence '{record_name}' contains invalid "
+                f"{alphabet} character(s): {invalid_characters}"
+            )
 
     return sequence
 
