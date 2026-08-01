@@ -1,0 +1,4 @@
+sequence1	sequence2	matching_kmers
+seq1	seq2	0
+seq1	seq3	0
+seq2	seq3	0

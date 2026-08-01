@@ -129,9 +129,14 @@ def resolve_threads(threads, total_jobs):
             raise ValueError(
                 "threads must be an integer or 'auto'"
             )
+        
+        if workers < 1:
+            raise ValueError(
+                "threads must be a minimal value of 1"
+                )
+        
         mode = "user"
 
-    workers = max(1, workers)
     workers = min(workers, total_jobs)
 
     return workers, mode

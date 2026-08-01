@@ -31,18 +31,14 @@ def test_resolve_threads_capped():
 
 def test_resolve_threads_zero():
 
-    workers, mode = resolve_threads("0", 10)
-
-    assert workers == 1
-    assert mode == "user"
+    with pytest.raises(ValueError):
+        resolve_threads("0", 10)
 
 
 def test_resolve_threads_negative():
 
-    workers, mode = resolve_threads("-5", 10)
-
-    assert workers == 1
-    assert mode == "user"
+    with pytest.raises(ValueError):
+        resolve_threads("-5", 10)
 
 
 
