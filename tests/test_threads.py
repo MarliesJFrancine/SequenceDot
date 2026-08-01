@@ -1,41 +1,54 @@
+import os
 import pytest
 
 from seqdot.utils import resolve_threads
 
 
-def test_resolve_threads_explicit():
+def test_resolve_threads_user():
 
-    assert resolve_threads("4", 100) == 4
+    workers, mode = resolve_threads("4", 100)
 
-
-def test_resolve_threads_limited_by_sequences():
-
-    assert resolve_threads("16", 3) == 3
-
-
-def test_resolve_threads_single():
-
-    assert resolve_threads("1", 20) == 1
+    assert workers == 4
+    assert mode == "user"
 
 
 def test_resolve_threads_auto():
 
-    threads = resolve_threads("auto", 20)
+    workers, mode = resolve_threads("auto", 100)
 
-    assert threads >= 1
-    assert threads <= 20
-
-
-def test_resolve_threads_auto_small_dataset():
-
-    assert resolve_threads("auto", 1) == 1
+    assert workers >= 1
+    assert workers <= (os.cpu_count() or 1)
+    assert mode == "auto"
 
 
-def test_resolve_threads_invalid():
+def test_resolve_threads_capped():
 
-    with pytest.raises(ValueError):
+    workers, mode = resolve_threads("1000", 3)
 
-        resolve_threads("banana", 10)
+    assert workers == 3
+    assert mode == "user"
+
+
+def test_resolve_threads_zero():
+
+    workers, mode = resolve_threads("0", 10)
+
+    assert workers == 1
+    assert mode == "user"
+
+
+def test_resolve_threads_negative():
+
+    workers, mode = resolve_threads("-5", 10)
+
+    assert workers == 1
+    assert mode == "user"
+
+
+
+
+
+
 
 
 

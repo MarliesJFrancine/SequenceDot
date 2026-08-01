@@ -134,6 +134,15 @@ def main(
             parents=True,
             exist_ok=True
         )
+        
+        try:
+            resolved_threads, thread_mode = resolve_threads(
+                threads,
+                len(sequences)
+            )
+
+        except ValueError as e:
+            raise typer.BadParameter(str(e))
 
         results = run_all_vs_all(
             sequences=sequences,
@@ -143,10 +152,8 @@ def main(
             point_size=point_size,
             include_self=include_self,
             silent=silent,
-            threads=resolve_threads(
-                threads,
-                len(sequences)
-            )
+            threads=resolved_threads,
+            thread_mode=thread_mode
         )
         
         write_summary(

@@ -104,7 +104,8 @@ def run_all_vs_all(
     point_size=1,
     include_self=False,
     silent=False,
-    threads=1
+    threads=1,
+    thread_mode="auto"
 ):
     """
     Run all-vs-all sequence comparisons.
@@ -121,10 +122,7 @@ def run_all_vs_all(
             seq,
             kmer
         )
-    
-    results = []
 
-    if not silent:
     if not silent:
 
         typer.echo("SequenceDot batch comparison")
@@ -134,7 +132,7 @@ def run_all_vs_all(
         typer.echo(f"Comparison mode      : all-vs-all")
         typer.echo(f"Include self         : {'yes' if include_self else 'no'}")
         typer.echo(f"Total comparisons    : {len(pairs)}")
-        typer.echo(f"CPU threads          : {threads}")
+        typer.echo(f"CPU threads          : {threads} ({thread_mode})")
 
         typer.echo("-" * 50)
         typer.echo()
@@ -164,7 +162,7 @@ def run_all_vs_all(
         if not silent:
 
             with tqdm(
-                total=len(futures),
+                total=len(future_to_pair),
                 desc="Comparisons",
                 unit="comparison"
             ) as pbar:
