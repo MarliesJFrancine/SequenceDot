@@ -58,7 +58,9 @@ def main(
         11,
         "--kmer",
         "-k",
-        help="Length of k-mer used for matching"
+        min=1,
+        max=100,
+        help="Length of k-mer used for matching (1-100)"
     ),
     output: str | None = typer.Option(
         None,
@@ -125,6 +127,17 @@ def main(
             alphabet
         )
 
+        shortest = min(
+            seq["length"]
+            for seq in sequences
+        )
+
+        if kmer > shortest:
+            raise typer.BadParameter(
+                f"k-mer size ({kmer}) is larger than the "
+                f"shortest sequence ({shortest} bp)."
+            )
+
         if output_dir is None:
             output_dir = Path("seqdot_results")
 
@@ -166,9 +179,14 @@ def main(
         )
 
         raise typer.Exit()
-
+    
     seq1 = read_fasta(sequence1, alphabet)
     seq2 = read_fasta(sequence2, alphabet)
+
+    shortest = min(
+        seq1["length"],
+        seq2["length"]
+    )
     
     for seq in [seq1, seq2]:
 
@@ -177,6 +195,12 @@ def main(
                 f"Warning: {seq['name']} contains gap characters (-). "
                 "SequenceDot is designed for unaligned sequences."
             )
+    
+    if kmer > shortest:
+        raise typer.BadParameter(
+            f"k-mer size ({kmer}) is larger than the "
+            f"shortest sequence ({shortest} bp)"
+        )
     
     if output is None:
         output = make_output_filename(

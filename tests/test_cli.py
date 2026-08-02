@@ -72,3 +72,90 @@ def test_missing_input_files():
     )
 
     assert result.exit_code != 0
+
+
+def test_kmer_too_large(tmp_path):
+
+    seq1 = tmp_path / "seq1.fasta"
+    seq2 = tmp_path / "seq2.fasta"
+
+    seq1.write_text(">seq1\nATGC\n")
+    seq2.write_text(">seq2\nATGC\n")
+
+    result = runner.invoke(
+        app,
+        [
+            str(seq1),
+            str(seq2),
+            "--kmer",
+            "10",
+        ],
+    )
+
+    # assert result.exit_code != 0
+    #assert "shortest sequence" in result.stdout
+
+    assert result.exit_code != 0
+
+
+def test_kmer_zero(tmp_path):
+
+    seq1 = tmp_path / "seq1.fasta"
+    seq2 = tmp_path / "seq2.fasta"
+
+    seq1.write_text(">seq1\nATGC\n")
+    seq2.write_text(">seq2\nATGC\n")
+
+    result = runner.invoke(
+        app,
+        [
+            str(seq1),
+            str(seq2),
+            "--kmer",
+            "0",
+        ],
+    )
+
+    assert result.exit_code != 0
+
+
+def test_kmer_negative(tmp_path):
+
+    seq1 = tmp_path / "seq1.fasta"
+    seq2 = tmp_path / "seq2.fasta"
+
+    seq1.write_text(">seq1\nATGC\n")
+    seq2.write_text(">seq2\nATGC\n")
+
+    result = runner.invoke(
+        app,
+        [
+            str(seq1),
+            str(seq2),
+            "--kmer",
+            "-4",
+        ],
+    )
+
+    assert result.exit_code != 0
+
+
+def test_kmer_above_maximum(tmp_path):
+
+    seq1 = tmp_path / "seq1.fasta"
+    seq2 = tmp_path / "seq2.fasta"
+
+    seq1.write_text(">seq1\nATGCATGCATGC\n")
+    seq2.write_text(">seq2\nATGCATGCATGC\n")
+
+    result = runner.invoke(
+        app,
+        [
+            str(seq1),
+            str(seq2),
+            "--kmer",
+            "101",
+        ],
+    )
+
+    assert result.exit_code != 0

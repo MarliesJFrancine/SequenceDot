@@ -26,6 +26,7 @@ seqdot examples/seq1.fasta examples/seq2.fasta --kmer 7 --point-size 7 --strand 
 The default k-mer size is 11. Use `--kmer` to change value. Values between 1 and 100 are accepted.
 
 For shorter sequences, a smaller k-mer size might be required. For longer sequences, larger k-mer values may provide more specific matches.
+The chosen k-mer size cannot be longer than the shortest sequence, when using `--file` with `--all-vs-all`.
 
 #### DNA, RNA, and amino acid sequences
 
@@ -216,8 +217,8 @@ SequenceDot is designed for **unaligned biological sequences**.
 
 Accepted input:
 
-- FASTA files containing DNA, RNA, or amino acid sequences
-- One sequence per file (single comparison) or multiple sequences in a FASTA file (batch mode)
+- Fasta files containing DNA, RNA, or amino acid sequences
+- One sequence per file (single comparison) or multiple sequences in a fasta file (batch mode)
 
 The following characters are handled as follows:
 
