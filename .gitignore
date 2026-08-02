@@ -27,3 +27,6 @@ dist/
 
 # Pytest
 .pytest_cache/
+
+# Files
+seqdot_results/
