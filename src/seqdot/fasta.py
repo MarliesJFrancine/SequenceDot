@@ -1,14 +1,14 @@
 from Bio import SeqIO
+
 from seqdot.utils import clean_sequence
 
 
-def read_fasta(filename, alphabet="DNA"):
+def validate_fasta(filename):
     """
-    Read a FASTA file and return sequence information.
-    Default is a DNA sequence.
+    Check that the input file is in fasta format.
     """
-    
-    with open(filename, "r") as file:
+
+    with open(filename) as file:
 
         for line in file:
 
@@ -22,118 +22,87 @@ def read_fasta(filename, alphabet="DNA"):
                     "Input file is not in fasta format"
                 )
 
-            break
-    
-    try:
-        record = SeqIO.read(filename, "fasta")
+            return
 
-    except ValueError:
+    raise ValueError(
+        "Input file is empty"
+    )
+
+
+def read_fasta(filename, alphabet="DNA"):
+    """
+    Read a single fasta sequence.
+    """
+
+    validate_fasta(filename)
+
+    records = list(
+        SeqIO.parse(filename, "fasta")
+    )
+
+    if len(records) == 0:
         raise ValueError(
-            "Input file does not contain a sequence"
+            "Input file contains no sequences"
         )
+
+    if len(records) > 1:
+        raise ValueError(
+            "Multiple sequences found "
+            "Use '--file' option instead"
+        )
+
+    record = records[0]
 
     return {
         "name": record.id,
         "sequence": clean_sequence(
             str(record.seq),
             alphabet,
-            record.id
+            record.id,
         ),
         "length": len(record.seq),
-        "index": None
+        "index": None,
     }
 
 
 def read_multi_fasta(filename, alphabet="DNA"):
     """
-    Read a multi-FASTA file.
-
-    Returns
-    -------
-    list
-        List of sequence dictionaries.
+    Read a multi-sequence fasta file.
     """
 
-    with open(filename, "r") as file:
+    validate_fasta(filename)
 
-        for line in file:
+    records = list(
+        SeqIO.parse(filename, "fasta")
+    )
 
-            line = line.strip()
-
-            if not line:
-                continue
-
-            if not line.startswith(">"):
-                raise ValueError(
-                    "Input file is not in fasta format"
-                )
-
-            break
-    
-    sequences = []
-
-    with open(filename, "r") as file:
-
-        name = None
-        sequence = []
-
-        for line in file:
-
-            line = line.strip()
-
-            if not line:
-                continue
-
-            if line.startswith(">"):
-
-                if name is not None:
-                    seq = clean_sequence(
-                        "".join(sequence),
-                        alphabet
-                    )
-
-                    sequences.append(
-                        {
-                            "name": name,
-                            "sequence": seq,
-                            "length": len(seq),
-                            "index": None
-                        }
-                    )
-
-                name = line[1:].split()[0]
-                sequence = []
-
-            else:
-                sequence.append(line)
-
-        # add final sequence
-        if name is not None:
-
-            seq = clean_sequence(
-                "".join(sequence),
-                alphabet,
-                name
-            )
-
-            sequences.append(
-                {
-                    "name": name,
-                    "sequence": seq,
-                    "length": len(seq)
-                }
-            )
-        
-        names = [seq["name"] for seq in sequences]
-
-        if len(names) != len(set(names)):
-            raise ValueError(
-                "Duplicate sequence names found."
-            )
-
-    if len(sequences) == 0:
+    if len(records) == 0:
         raise ValueError(
             "Input file contains no sequences"
         )
-    
+
+    sequences = []
+
+    for record in records:
+
+        sequences.append(
+            {
+                "name": record.id,
+                "sequence": clean_sequence(
+                    str(record.seq),
+                    alphabet,
+                    record.id,
+                ),
+                "length": len(record.seq),
+                "index": None,
+            }
+        )
+
+    names = [seq["name"] for seq in sequences]
+
+    if len(names) != len(set(names)):
+        raise ValueError(
+            "Duplicate sequence headers found"
+        )
+
     return sequences
