@@ -34,10 +34,7 @@ The default expectation is DNA sequences.
 
 Sequences are converted to uppercase. K-mers containing ambiguous characters such as `N` (DNA/RNA) or `X` (protein) are ignored during matching.
 
-Other supported alphabets are:
-
-- `RNA`
-- `AA` (amino acid sequences)
+Other supported alphabets are: `RNA` and `AA` (amino acid sequences)
 
 For amino acid sequences, all valid amino acid characters are accepted.
 
@@ -45,11 +42,7 @@ For amino acid sequences, all valid amino acid characters are accepted.
 
 The default is forward strand comparison.
 
-Available options are:
-
-- `forward`
-- `reverse`
-- `both`
+Available options are: `forward` `reverse` `both`
 
 Forward matches are shown along the main diagonal. Reverse-complement matches are shown along the anti-diagonal.
 
@@ -67,11 +60,7 @@ Values between 1 and 100 are accepted.
 
 #### High-resolution output
 
-The default output format is:
-
-```
-dotplot.png
-```
+The default output format is: `dotplot.png`
 
 Supported output formats are: `.png` `.pdf` `.svg`
 
@@ -123,7 +112,7 @@ Generated as part of batch comparison with `--all-vs-all`.
 It contains one row per comparison:
 
 | sequence1 | sequence2 | matching_kmers |
-|-----------|-----------|---------------:|
+|----------|-----------|-----------|
 | seq1 | seq2 | 153 |
 | seq1 | seq3 | 88 |
 
@@ -209,7 +198,7 @@ SequenceDot is designed for **unaligned biological sequences**.
 
 Accepted input:
 
-- Fasta files containing DNA, RNA, or amino acid sequences
+- Fasta files containing DNA, RNA, or amino acid (AA) sequences
 - One sequence per file (single comparison) or multiple sequences in a fasta file (batch mode)
 
 The following characters are handled as follows:
