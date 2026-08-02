@@ -73,13 +73,7 @@ The default output format is:
 dotplot.png
 ```
 
-Supported output formats are:
-
-- `.png`
-- `.pdf`
-- `.svg`
-
-Example:
+Supported output formats are: `.png` `.pdf` `.svg`
 
 ```bash
 seqdot sequence1.fasta sequence2.fasta --output comparison.pdf
@@ -88,8 +82,6 @@ seqdot sequence1.fasta sequence2.fasta --output comparison.pdf
 #### All-vs-all batch comparison
 
 SequenceDot can compare each sequence in a multi-sequence FASTA file against all other sequences.
-
-Example:
 
 ```bash
 seqdot --file sequences.fasta --all-vs-all
@@ -105,7 +97,7 @@ By default, self-comparisons are skipped. To include these, use `--include-self`
 
 #### Output file naming
 
-As a default for single comparisons, the file name is based on the two input sequences:
+As a default for single comparisons, the file name is based on the two input sequences.
 
 ```text
 sequence1_vs_sequence2.png
@@ -285,7 +277,7 @@ seqdot --file sequences.fasta --all-vs-all --output-dir plots/
 
 #### Include self-comparisons
 
-To include self-comparisons when plotting a multi-sequence FASTA file with `--all-vs-all`:
+To include self-comparisons when plotting a multi-sequence FASTA file with `--all-vs-all`.
 
 ```bash
 seqdot --file sequences.fasta --all-vs-all --include-self --output-dir plots/
@@ -296,8 +288,6 @@ seqdot --file sequences.fasta --all-vs-all --include-self --output-dir plots/
 #### Run tests
 
 SequenceDot uses `pytest` for automated testing.
-
-Run:
 
 ```bash
 pytest
