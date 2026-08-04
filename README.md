@@ -21,6 +21,16 @@ seqdot examples/seq1.fasta examples/seq2.fasta --kmer 7 --point-size 7 --strand 
 
 ### Features
 
+#### FASTA and compressed FASTA support
+
+SequenceDot accepts standard FASTA files, as well as gzipped FASTA files (`.fasta.gz`) without requiring manual decompression
+
+```bash
+seqdot sequence1.fasta.gz sequence2.fasta.gz
+```
+
+This is also possible with multi-sequence files with `--file`
+
 #### K-mer based sequence comparison
 
 The default k-mer size is 11. Use `--kmer` to change value. Values between 1 and 100 are accepted.
@@ -198,8 +208,9 @@ SequenceDot is designed for **unaligned biological sequences**.
 
 Accepted input:
 
-- Fasta files containing DNA, RNA, or amino acid (AA) sequences
-- One sequence per file (single comparison) or multiple sequences in a fasta file (batch mode)
+- FASTA files containing DNA, RNA, or amino acid (AA) sequences (`.fasta`, `.fa`, and `.fna`)
+- Gzipped FASTA files (`.fasta.gz`)
+- One sequence per file (single comparison) or multiple sequences in a FASTA file (batch mode)
 
 The following characters are handled as follows:
 
