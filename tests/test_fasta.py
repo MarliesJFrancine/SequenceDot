@@ -1,4 +1,5 @@
 import pytest
+import gzip
 
 from seqdot.fasta import read_fasta, read_multi_fasta
 
@@ -117,3 +118,18 @@ def test_read_fasta(tmp_path):
     assert sequence["sequence"] == "ATGC"
     assert sequence["length"] == 4
     assert sequence["index"] is None
+
+
+def test_read_gzipped_fasta(tmp_path):
+    
+    fasta = tmp_path / "test.fasta.gz"
+    
+    with gzip.open(fasta, "wt") as handle:
+        handle.write(
+            ">seq1\n"
+            "ATGCATGC\n"
+        )
+    
+    sequence = read_fasta(fasta)
+    
+    assert sequence["sequence"] == "ATGCATGC"

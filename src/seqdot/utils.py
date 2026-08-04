@@ -115,22 +115,16 @@ def resolve_threads(threads, total_jobs):
     """
     Resolve the number of worker processes to use.
 
-    Parameters
-    ----------
-    threads : str
-        Either an integer as a string (e.g. "4") or "auto".
-
-    total_jobs : int
-        Total number of comparisons.
-
     Returns
     -------
     tuple
-        (number of worker processes, mode)
+        (workers, mode, cpu_count)
     """
 
+    cpu_count = os.cpu_count() or 1
+
     if threads == "auto":
-        workers = os.cpu_count() or 1
+        workers = cpu_count
         mode = "auto"
 
     else:
@@ -140,12 +134,12 @@ def resolve_threads(threads, total_jobs):
             raise ValueError(
                 "threads must be an integer or 'auto'"
             )
-        
+
         if workers < 1:
             raise ValueError(
-                "threads must be a minimal value of 1"
-                )
-        
+                "threads must be at least 1"
+            )
+
         mode = "user"
 
     workers = min(workers, total_jobs)

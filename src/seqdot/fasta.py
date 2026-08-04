@@ -1,6 +1,22 @@
+import gzip
+
+from pathlib import Path
 from Bio import SeqIO
 
 from seqdot.utils import clean_sequence
+
+
+def open_fasta(filename):
+    """
+    Open plain or gzipped FASTA files.
+    """
+
+    filename = Path(filename)
+
+    if filename.suffix == ".gz":
+        return gzip.open(filename, "rt")
+
+    return open(filename, "r")
 
 
 def validate_fasta(filename):
@@ -8,7 +24,7 @@ def validate_fasta(filename):
     Check that the input file is in fasta format.
     """
 
-    with open(filename) as file:
+    with open_fasta(filename) as file:
 
         for line in file:
 
@@ -36,9 +52,8 @@ def read_fasta(filename, alphabet="DNA"):
 
     validate_fasta(filename)
 
-    records = list(
-        SeqIO.parse(filename, "fasta")
-    )
+    with open_fasta(filename) as handle:
+        records = list(SeqIO.parse(handle, "fasta"))
 
     if len(records) == 0:
         raise ValueError(
@@ -72,9 +87,8 @@ def read_multi_fasta(filename, alphabet="DNA"):
 
     validate_fasta(filename)
 
-    records = list(
-        SeqIO.parse(filename, "fasta")
-    )
+    with open_fasta(filename) as handle:
+        records = list(SeqIO.parse(handle, "fasta"))
 
     if len(records) == 0:
         raise ValueError(

@@ -1,4 +1,5 @@
 import typer
+import os
 
 from seqdot import __version__
 from seqdot.compare import compare_sequences
@@ -8,7 +9,6 @@ from seqdot.utils import make_output_filename, check_for_gaps, resolve_threads
 from seqdot.report import write_summary
 
 from pathlib import Path
-from typing import Literal
 from enum import Enum
 
 class Strand(str, Enum):
@@ -40,16 +40,16 @@ def version_callback(value: bool):
 def main(
     sequence1: str | None = typer.Argument(
         None,
-        help="First sequence FASTA file"
+        help="First fasta file (.fasta, .fa, .fna, optionally .gz)"
     ),
     sequence2: str | None = typer.Argument(
         None,
-        help="Second sequence FASTA file"
+        help="Second fasta file (.fasta, .fa, .fna, optionally .gz)"
     ),
     input_file: str | None = typer.Option(
         None,
         "--file",
-        help="Multiple sequence FASTA input file for batch comparison"
+        help="Multiple sequence fasta file for batch comparison (.fasta, .fa, .fna, optionally .gz)"
     ),
     all_vs_all: bool = typer.Option(
         False,
@@ -116,7 +116,7 @@ def main(
         "auto",
         "--threads",
         "-t",
-        help="Number of CPU threads (default: auto)"
+        help="Number of CPU workers (default: auto)"
     )
 ):
 
@@ -158,6 +158,7 @@ def main(
         )
         
         try:
+            cpu_count = os.cpu_count() or 1
             resolved_threads, thread_mode = resolve_threads(
                 threads,
                 len(sequences)
@@ -165,6 +166,35 @@ def main(
 
         except ValueError as e:
             raise typer.BadParameter(str(e))
+        
+        typer.echo("\nSequenceDot batch comparison")
+        typer.echo("-" * 50)
+        
+        typer.echo(f"Found sequences   : {len(sequences)}")
+        typer.echo("Comparison mode   : all-vs-all")
+        typer.echo(f"Include self      : {'yes' if include_self else 'no'}")
+
+        n = len(sequences)
+        comparisons = (n * (n - 1) // 2)
+        if include_self:
+            comparisons += n
+        
+        typer.echo(f"Total comparisons : {comparisons}")
+
+        if thread_mode == "auto":
+            typer.echo(
+                f"CPU workers       : "
+                f"{resolved_threads} "
+                f"(auto, {cpu_count} available)"
+            )
+        else:
+            typer.echo(
+                f"CPU workers       : "
+                f"{resolved_threads} "
+                "(user)"
+            )
+        
+        typer.echo("-" * 50)
 
         results = run_all_vs_all(
             sequences=sequences,
