@@ -64,7 +64,9 @@ def create_dotplot(
         Output image filename.
     """
 
-    
+    if point_size <= 0:
+        raise ValueError("Point_size cannot be a negative value")
+        
     forward_x, forward_y, reverse_x, reverse_y = separate_strands(
         matches,
         length2,

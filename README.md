@@ -52,11 +52,11 @@ When using `--strand both`, forward and reverse-complement matches are shown as 
 
 #### Adjustable dot size
 
-The default dot size is 1.
+The default dot size is 1.0.
 
 The optimal dot size depends on sequence length and the desired plot resolution.
 
-Values between 1 and 100 are accepted.
+Values between 0.1 and 100 are accepted.
 
 #### High-resolution output
 

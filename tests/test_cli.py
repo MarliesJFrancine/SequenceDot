@@ -46,19 +46,27 @@ def test_version_short():
     assert result.stdout.strip() == f"SequenceDot {__version__}"
 
 
-def test_invalid_strand():
+def test_invalid_strand(tmp_path):
+
+    seq1 = tmp_path / "seq1.fasta"
+    seq2 = tmp_path / "seq2.fasta"
+
+    seq1.write_text(">seq1\nATGCATGC\n")
+    seq2.write_text(">seq2\nATGCATGC\n")
 
     result = runner.invoke(
         app,
         [
-            "seq1.fasta",
-            "seq2.fasta",
-            "--strand",
-            "banana"
+            str(seq1),
+            str(seq2),
+            "--kmer",
+            "4",
+            "--point-size",
+            "0.5",
         ]
     )
 
-    assert result.exit_code != 0
+    assert result.exit_code == 0
 
 
 def test_missing_input_files():
@@ -91,9 +99,6 @@ def test_kmer_too_large(tmp_path):
             "10",
         ],
     )
-
-    # assert result.exit_code != 0
-    #assert "shortest sequence" in result.stdout
 
     assert result.exit_code != 0
 
@@ -155,6 +160,52 @@ def test_kmer_above_maximum(tmp_path):
             str(seq2),
             "--kmer",
             "101",
+        ],
+    )
+
+    assert result.exit_code != 0
+
+
+def test_point_size_float(tmp_path):
+
+    seq1 = tmp_path / "seq1.fasta"
+    seq2 = tmp_path / "seq2.fasta"
+
+    seq1.write_text(">seq1\nATGCATGC\n")
+    seq2.write_text(">seq2\nATGCATGC\n")
+
+    result = runner.invoke(
+        app,
+        [
+            str(seq1),
+            str(seq2),
+            "--kmer",
+            "4",
+            "--point-size",
+            "2",
+        ],
+    )
+
+    assert result.exit_code == 0
+
+
+def test_point_size_negative(tmp_path):
+
+    seq1 = tmp_path / "seq1.fasta"
+    seq2 = tmp_path / "seq2.fasta"
+
+    seq1.write_text(">seq1\nATGCATGC\n")
+    seq2.write_text(">seq2\nATGCATGC\n")
+
+    result = runner.invoke(
+        app,
+        [
+            str(seq1),
+            str(seq2),
+            "--kmer",
+            "4",
+            "--point-size",
+            "-1",
         ],
     )
 

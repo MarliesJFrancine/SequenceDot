@@ -6,8 +6,15 @@ from seqdot.fasta import read_fasta, read_multi_fasta
 from seqdot.batch import run_all_vs_all
 from seqdot.utils import make_output_filename, check_for_gaps, resolve_threads
 from seqdot.report import write_summary
-from pathlib import Path
 
+from pathlib import Path
+from typing import Literal
+from enum import Enum
+
+class Strand(str, Enum):
+    forward = "forward"
+    reverse = "reverse"
+    both = "both"
 
 app = typer.Typer(
     name="SequenceDot",
@@ -79,16 +86,18 @@ def main(
         "-a",
         help="Sequence alphabet: DNA, RNA, or AA"
     ),
-    strand: str = typer.Option(
-        "forward",
+    strand: Strand = typer.Option(
+        Strand.forward,
         "--strand",
         "-s",
         help="Compare forward strand, reverse complement, or both"
     ),
     point_size: float = typer.Option(
-        1,
+        1.0,
         "--point-size",
-        help="Size of dots in the plot"
+        min=0.1,
+        max=100,
+        help="Size of dots in the plot (0.1-100)"
     ),
     silent: bool = typer.Option(
         False,
@@ -160,7 +169,7 @@ def main(
         results = run_all_vs_all(
             sequences=sequences,
             kmer=kmer,
-            strand=strand,
+            strand=strand.value,
             output_dir=output_dir,
             point_size=point_size,
             include_self=include_self,
@@ -217,15 +226,6 @@ def main(
         )
 
         output = str(output_dir / output)
-    
-    if strand not in [
-        "forward",
-        "reverse",
-        "both"
-    ]:
-        raise typer.BadParameter(
-            "strand must be 'forward' or 'reverse', or 'both'"
-        )
 
     typer.echo(
         f"Building k-mer index (k={kmer})..."
@@ -235,7 +235,7 @@ def main(
         seq1,
         seq2,
         kmer,
-        strand,
+        strand.value,
         output,
         point_size
     )
