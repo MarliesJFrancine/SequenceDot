@@ -49,7 +49,7 @@ def test_read_multi_fasta_not_fasta(tmp_path):
         "ATGC\n"
     )
 
-    with pytest.raises(ValueError, match="fasta"):
+    with pytest.raises(ValueError, match="FASTA"):
 
         read_multi_fasta(fasta)
 
@@ -133,3 +133,18 @@ def test_read_gzipped_fasta(tmp_path):
     sequence = read_fasta(fasta)
     
     assert sequence["sequence"] == "ATGCATGC"
+
+
+def test_read_zip_file_not_supported(tmp_path):
+
+    fasta = tmp_path / "test.zip"
+
+    fasta.write_text(
+        "fake zip content"
+    )
+
+    with pytest.raises(
+        ValueError,
+        match="ZIP archives are not supported"
+    ):
+        read_fasta(fasta)

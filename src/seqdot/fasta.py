@@ -13,7 +13,7 @@ def open_fasta(filename):
 
     filename = Path(filename)
 
-    if filename.suffix == ".gz":
+    if filename.suffix.lower() == ".gz":
         return gzip.open(filename, "rt")
 
     return open(filename, "r")
@@ -21,8 +21,17 @@ def open_fasta(filename):
 
 def validate_fasta(filename):
     """
-    Check that the input file is in fasta format.
+    Check that the input file is in FASTA format.
     """
+    
+    filename = Path(filename)
+
+    if filename.suffix.lower() == ".zip":
+        raise ValueError(
+            "ZIP archives are not supported. "
+            "Please extract the FASTA file first "
+            "or use gzip-compressed (.gz) FASTA files."
+        )
 
     with open_fasta(filename) as file:
 
@@ -35,7 +44,7 @@ def validate_fasta(filename):
 
             if not line.startswith(">"):
                 raise ValueError(
-                    "Input file is not in fasta format"
+                    "Input file is not in FASTA format"
                 )
 
             return
@@ -47,7 +56,7 @@ def validate_fasta(filename):
 
 def read_fasta(filename, alphabet="DNA"):
     """
-    Read a single fasta sequence.
+    Read a single FASTA sequence.
     """
 
     validate_fasta(filename)
@@ -82,7 +91,7 @@ def read_fasta(filename, alphabet="DNA"):
 
 def read_multi_fasta(filename, alphabet="DNA"):
     """
-    Read a multi-sequence fasta file.
+    Read a multi-sequence FASTA file.
     """
 
     validate_fasta(filename)

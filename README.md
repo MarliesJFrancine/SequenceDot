@@ -29,7 +29,7 @@ SequenceDot accepts standard FASTA files, as well as gzipped FASTA files (`.fast
 seqdot sequence1.fasta.gz sequence2.fasta.gz
 ```
 
-This is also possible with multi-sequence files with `--file`
+This is also possible with multi-sequence FASTA files with `--file`
 
 #### K-mer based sequence comparison
 
@@ -209,8 +209,9 @@ SequenceDot is designed for **unaligned biological sequences**.
 Accepted input:
 
 - FASTA files containing DNA, RNA, or amino acid (AA) sequences (`.fasta`, `.fa`, and `.fna`)
-- Gzipped FASTA files (`.fasta.gz`)
 - One sequence per file (single comparison) or multiple sequences in a FASTA file (batch mode)
+- Gzipped FASTA files (`.fasta.gz`)
+- ZIP archives (`.zip`) are not supported and must be extracted before use
 
 The following characters are handled as follows:
 
