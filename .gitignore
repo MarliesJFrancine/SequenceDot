@@ -4,6 +4,9 @@
 # Test data
 testing_data/
 
+# Benchmark tests
+benchmark/
+
 # Python cache
 __pycache__/
 *.py[cod]
