@@ -18,6 +18,9 @@ class Strand(str, Enum):
 
 app = typer.Typer(
     name="SequenceDot",
+    context_settings={
+        "help_option_names": ["-h", "--help"]
+    },
     help="""
 Create k-mer-based dotplots from unaligned sequences
 
