@@ -81,6 +81,7 @@ def main(
     output_dir: str | None = typer.Option(
         None,
         "--output-dir",
+        "-d",
         help="Directory where output files are written, specifically useful for batch mode"
     ),
     alphabet: str = typer.Option(
@@ -98,6 +99,7 @@ def main(
     point_size: float = typer.Option(
         1.0,
         "--point-size",
+        "-p",
         min=0.1,
         max=100,
         help="Size of dots in the plot (0.1-100)"
@@ -105,6 +107,7 @@ def main(
     silent: bool = typer.Option(
         False,
         "--silent",
+        "-s",
         help="Suppress progress bar during batch processing"
     ),
     version: bool = typer.Option(
