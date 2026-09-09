@@ -2,14 +2,16 @@
 requires = ["setuptools>=61"]
 build-backend = "setuptools.build_meta"
 
-
 [project]
-name = "seqdot"
+name = "SequenceDot"
 version = "0.2.0"
 description = "A command-line tool for generating k-mer based dotplots from biological sequences"
 authors = [
-    {name = "Marlies Jilles Francine Goedknegt"}
+    {name = "Marlies Jilles Francine Goedknegt", email = "marliesgoedknegt@ruc.dk"}
 ]
+license = {text = "GPL-3.0"}
+readme = "README.md"
+requires-python = ">=3.10"
 dependencies = [
     "typer",
     "biopython",
@@ -18,10 +20,11 @@ dependencies = [
     "tqdm"
 ]
 
+[project.urls]
+Homepage = "https://github.com/MarliesJFrancine/SequenceDot"
 
 [project.scripts]
 seqdot = "seqdot.cli:app"
-
 
 [tool.setuptools.packages.find]
 where = ["src"]
