@@ -23,7 +23,7 @@ seqdot examples/seq1.fasta examples/seq2.fasta --kmer 7 --point-size 7 --strand 
 
 #### FASTA and compressed FASTA support
 
-SequenceDot accepts standard FASTA files, as well as gzipped FASTA files (`.fasta.gz`) without requiring manual decompression
+SequenceDot accepts standard FASTA files (`.fasta`, `.fa`, `.fna`), as well as gzipped FASTA files (`.fasta.gz`) without requiring manual decompression
 
 ```bash
 seqdot sequence1.fasta.gz sequence2.fasta.gz
@@ -173,6 +173,14 @@ For development, install SequenceDot in editable mode:
 ```bash
 pip install -e .
 ```
+
+---
+
+### Web interface
+
+A web interface is available at [sequencedot-marliesjfrancine.streamlit.app](https://sequencedot-marliesjfrancine.streamlit.app/)
+
+This option only supports single FASTA sequence comparisons (`.fasta`, `.fa`, `.fna`, or `.gz`) while still allowing adjustable parameters.
 
 ---
 
