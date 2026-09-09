@@ -149,7 +149,7 @@ seqdot --file sequences.fasta --all-vs-all --threads 4
 #### PyPI installation
 
 ```bash
-pip install seqdot
+pip install SequenceDot
 ```
 
 #### Clone the repository
