@@ -235,7 +235,7 @@ The following characters are handled as follows:
 | N (DNA/RNA) | Unknown nucleotide | k-mers containing N are ignored |
 | X (protein) | Unknown amino acid | k-mers containing X are ignored |
 | - (gap) | Alignment gap | SequenceDot will report an error because the input appears to be an alignment |
-| Any other invalid character | Invalid sequence | SequenceDot will reprot an error because the input is not recognized as DNA, RNA, or AA |
+| Any other invalid character | Invalid sequence | SequenceDot will report an error because the input is not recognized as DNA, RNA, or AA |
 
 Gap characters (`-`) indicate an aligned sequence. SequenceDot compares raw sequences using k-mers and therefore does not accept aligned sequences containing gaps.
 
