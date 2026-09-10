@@ -184,7 +184,7 @@ pip install -e .
 
 ### Web interface
 
-A web interface is available at [sequencedot-marliesjfrancine.streamlit.app](https://sequencedot-marliesjfrancine.streamlit.app/)
+A web interface is available at [sequencedot.streamlit.app](https://sequencedot.streamlit.app/)
 
 This option only supports single FASTA sequence comparisons (`.fasta`, `.fa`, `.fna`, or `.gz`) while still allowing adjustable parameters.
 
