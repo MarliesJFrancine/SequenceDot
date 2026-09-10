@@ -107,8 +107,7 @@ def main(
     silent: bool = typer.Option(
         False,
         "--silent",
-        "-s",
-        help="Suppress progress bar during batch processing"
+        help="Suppress progress bar during batch processing (--all-vs-all only)"
     ),
     version: bool = typer.Option(
         False,
@@ -130,6 +129,13 @@ def main(
     """
     Generate a dotplot from two sequence files.
     """
+
+    if input_file is not None and not all_vs_all:
+        raise typer.BadParameter(
+            "--file requires --all-vs-all. "
+            "Did you mean: seqdot --file pox2.fasta --all-vs-all?"
+        )
+
     if all_vs_all:
 
         if input_file is None:

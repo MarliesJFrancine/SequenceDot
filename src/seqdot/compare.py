@@ -134,6 +134,7 @@ def compare_sequences(
         seq1["length"],
         seq2["length"],
         kmer,
+        strand=strand,
         name1=seq1["name"],
         name2=seq2["name"],
         output_file=output_file,

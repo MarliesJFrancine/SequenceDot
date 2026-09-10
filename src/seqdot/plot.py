@@ -35,6 +35,7 @@ def create_dotplot(
     length1,
     length2,
     kmer,
+    strand="forward",
     name1="Sequence 1",
     name2="Sequence 2",
     output_file="dotplot.png",
@@ -87,23 +88,25 @@ def create_dotplot(
         label="Forward"
     )
 
-    ax.scatter(
-        reverse_x,
-        reverse_y,
-        s=point_size,
-        marker=".",
-        color="darkorange",
-        label="Reverse complement"
-    )
+    if strand in ("reverse", "both"):
+        ax.scatter(
+            reverse_x,
+            reverse_y,
+            s=point_size,
+            marker=".",
+            color="darkorange",
+            label="Reverse complement"
+        )
 
-    ax.legend()
+    if strand == "both":
+        ax.legend()
     
     ax.ticklabel_format(
         style="plain"
     )
 
     ax.set_xlim(0, length1)
-    ax.set_ylim(length2, 0)
+    ax.set_ylim(0, length2)
 
     ax.set_xlabel(name1)
     ax.set_ylabel(name2)

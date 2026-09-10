@@ -19,6 +19,45 @@ seqdot examples/seq1.fasta examples/seq2.fasta --kmer 7 --point-size 7 --strand 
 
 ---
 
+### Installation
+
+#### Installation via PyPI
+
+```bash
+pip install SequenceDot
+```
+#### Installation via GitHub
+
+##### Clone the repository
+
+```bash
+git clone https://github.com/MarliesJFrancine/SequenceDot.git
+cd SequenceDot
+```
+
+##### Create and activate an environment
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+##### Install SequenceDot
+
+```bash
+pip install .
+```
+
+##### Developmental installation
+
+For development, install SequenceDot in editable mode:
+
+```bash
+pip install -e .
+```
+
+---
+
 ### Features
 
 #### FASTA and compressed FASTA support
@@ -90,7 +129,7 @@ Output plots are written to the output directory, together with summary `.tsv` f
 Default directory is `/seqdot_results/`. Placed in directory where SequenceDot is run.
 This directory can be defined with `--output-dir`.
 
-A progress bar is shown in the terminal by default. Can be turned off with `--silent`.
+A progress bar is shown in the terminal by default. It can be suppressed with `--silent`.
 
 By default, self-comparisons are skipped. To include these, use `--include-self`.
 
@@ -140,44 +179,6 @@ To specify the number of CPU cores:
 
 ```bash
 seqdot --file sequences.fasta --all-vs-all --threads 4
-```
-
----
-
-### Installation
-
-#### PyPI installation
-
-```bash
-pip install SequenceDot
-```
-
-#### Clone the repository
-
-```bash
-git clone https://github.com/MarliesJFrancine/SequenceDot.git
-cd SequenceDot
-```
-
-#### Create and activate an environment
-
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-```
-
-#### Install SequenceDot
-
-```bash
-pip install .
-```
-
-#### Developmental installation
-
-For development, install SequenceDot in editable mode:
-
-```bash
-pip install -e .
 ```
 
 ---
