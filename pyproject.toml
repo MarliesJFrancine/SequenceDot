@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "SequenceDot"
-version = "0.2.2"
+version = "0.2.3"
 description = "A command-line tool for generating k-mer based dotplots from biological sequences"
 authors = [
     {name = "Marlies Jilles Francine Goedknegt", email = "marliesgoedknegt@ruc.dk"}
