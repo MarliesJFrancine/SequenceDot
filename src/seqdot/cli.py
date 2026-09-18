@@ -26,7 +26,7 @@ Create k-mer-based dotplots from unaligned sequences
 
 Supports:
 - comparison of two FASTA files
-- all-vs-all comparison from a multi-sequence FASTA file
+- all-vs-all comparison from a multi-sequence FASTA file (--file)
 """
 )
 
@@ -52,17 +52,12 @@ def main(
     input_file: str | None = typer.Option(
         None,
         "--file",
-        help="Multiple sequence fasta file for batch comparison (.fasta, .fa, .fna, optionally .gz)"
-    ),
-    all_vs_all: bool = typer.Option(
-        False,
-        "--all-vs-all",
-        help="Compare every sequence against every other sequence in --file, default does NOT include self (add --include-self)"
+        help="Multi-sequence FASTA file for all-vs-all batch comparison (.fasta, .fa, .fna, optionally .gz)"
     ),
     include_self: bool = typer.Option(
         False,
         "--include-self",
-        help="Include self-comparisons in all-vs-all mode"
+        help="Include self-comparisons in batch mode"
     ),
     kmer: int = typer.Option(
         11,
@@ -107,7 +102,7 @@ def main(
     silent: bool = typer.Option(
         False,
         "--silent",
-        help="Suppress progress bar during batch processing (--all-vs-all only)"
+        help="Suppress progress bar during batch processing"
     ),
     version: bool = typer.Option(
         False,
@@ -130,18 +125,7 @@ def main(
     Generate a dotplot from two sequence files.
     """
 
-    if input_file is not None and not all_vs_all:
-        raise typer.BadParameter(
-            "--file requires --all-vs-all. "
-            "Did you mean: seqdot --file pox2.fasta --all-vs-all?"
-        )
-
-    if all_vs_all:
-
-        if input_file is None:
-            raise typer.BadParameter(
-                "--all-vs-all requires --file"
-            )
+    if input_file is not None:
 
         sequences = read_multi_fasta(
             input_file,
