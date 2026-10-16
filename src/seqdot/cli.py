@@ -71,13 +71,13 @@ def main(
         None,
         "--output",
         "-o",
-        help="Output file for single comparisons (.png, .pdf, .svg)"
+        help="Output file for single comparisons (.png, .pdf, .svg). Default: <seq1>_vs_<seq2>.png"
     ),
     output_dir: str | None = typer.Option(
         None,
         "--output-dir",
         "-d",
-        help="Directory where output files are written, specifically useful for batch mode"
+        help="Directory where output files are written. Default: current directory for single comparisons, seqdot_results/ for batch (--file)"
     ),
     alphabet: str = typer.Option(
         "DNA",
